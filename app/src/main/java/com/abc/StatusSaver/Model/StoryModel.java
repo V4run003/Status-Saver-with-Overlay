@@ -7,6 +7,18 @@ public class StoryModel {
     private Uri uri;
     private String path;
     private String filename;
+    private String viewType;
+
+    public StoryModel(String name, Uri uri, String path, String filename, String viewType) {
+        this.name = name;
+        this.uri = uri;
+        this.path = path;
+        this.filename = filename;
+        this.viewType = viewType;
+    }
+
+    public StoryModel() {
+    }
 
     public String getViewType() {
         return viewType;
@@ -16,16 +28,6 @@ public class StoryModel {
         this.viewType = viewType;
     }
 
-    private String viewType;
-    public StoryModel(String name, Uri uri, String path, String filename, String viewType) {
-        this.name = name;
-        this.uri = uri;
-        this.path = path;
-        this.filename = filename;
-        this.viewType = viewType;
-    }
-    public StoryModel() {
-    }
     public String getFilename() {
         return filename;
     }

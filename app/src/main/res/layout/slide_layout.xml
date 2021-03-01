@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-    android:background="#CBCFD2"
-android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CBCFD2">
 
-<ImageView
-    android:id="@+id/imageView"
-    android:layout_width="400dp"
-    android:layout_height="400dp"
-    android:layout_centerHorizontal="true"
-    android:adjustViewBounds="true"
-    android:padding="10dp"
-    android:layout_centerVertical="true"
-    android:src="@mipmap/ic_launcher"
-    tools:ignore="RtlSymmetry" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="true"
+        android:padding="10dp"
+        android:src="@mipmap/ic_launcher"
+        tools:ignore="RtlSymmetry" />
 
-<TextView
-    android:id="@+id/heading"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    android:layout_margin="20dp"
-    android:fontFamily="@font/roboto_regular"
-    android:textStyle="bold"
-    android:text="one"
-    android:textColor="#000000"
-    android:textSize="56dp"
-    tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="one"
+        android:textColor="#000000"
+        android:textSize="56dp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText" />
 
-<TextView
-    android:paddingEnd="10dp"
-    android:paddingStart="10dp"
-    android:layout_marginTop="10dp"
-    android:id="@+id/contents"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/imageView"
-    android:layout_centerHorizontal="true"
-    android:fontFamily="@font/roboto_regular"
-    android:gravity="center"
-    android:text="Contents"
-    android:textColor="@color/text_color_disc"
-    android:textSize="18sp"
-    tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/contents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="Contents"
+        android:textColor="@color/text_color_disc"
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
 
 </RelativeLayout>

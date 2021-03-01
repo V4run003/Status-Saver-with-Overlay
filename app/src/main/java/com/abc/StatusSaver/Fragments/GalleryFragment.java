@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,6 @@ import com.abc.StatusSaver.Adapters.GalleryAdapter;
 import com.abc.StatusSaver.Model.GalleryModel;
 import com.abc.StatusSaver.R;
 import com.abc.StatusSaver.Utils.Constants;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,6 +35,7 @@ public class GalleryFragment extends Fragment {
     private TextView nodata;
     private RelativeLayout gototop;
     private Context mContext;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -47,9 +45,9 @@ public class GalleryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-         view = inflater.inflate(R.layout.gallery_fragment, container, false);
-         nodata = view.findViewById(R.id.no_data);
-         gototop = view.findViewById(R.id.goto_top_btn);
+        view = inflater.inflate(R.layout.gallery_fragment, container, false);
+        nodata = view.findViewById(R.id.no_data);
+        gototop = view.findViewById(R.id.goto_top_btn);
         recyclerView = view.findViewById(R.id.gallery_recycler_view);
         initComponents();
         setUpRecyclerView();
@@ -65,12 +63,11 @@ public class GalleryFragment extends Fragment {
             LinearLayoutManager myLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             assert myLayoutManager != null;
             int scrollPosition = myLayoutManager.findFirstVisibleItemPosition();
-            if (scrollPosition>3){
+            if (scrollPosition > 3) {
                 gototop.setVisibility(View.VISIBLE);
                 gototop.setOnClickListener(v1 -> myLayoutManager.smoothScrollToPosition
-                        (recyclerView,null, 0));
-            }
-            else gototop.setVisibility(View.INVISIBLE);
+                        (recyclerView, null, 0));
+            } else gototop.setVisibility(View.INVISIBLE);
         });
         recyclerLayout.setOnRefreshListener(() -> {
             recyclerLayout.setRefreshing(true);
@@ -83,6 +80,7 @@ public class GalleryFragment extends Fragment {
 
         });
     }
+
     private void setUpRecyclerView() {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -116,7 +114,7 @@ public class GalleryFragment extends Fragment {
             for (int i = 0; i < files.length; i++) {
                 File file = files[i];
                 f = new GalleryModel();
-                f.setName("Saved Status: "+(i+1));
+                f.setName("Saved Status: " + (i + 1));
                 f.setFilename(file.getName());
                 f.setUri(Uri.fromFile(file));
                 f.setPath(files[i].getAbsolutePath());
@@ -129,7 +127,7 @@ public class GalleryFragment extends Fragment {
 
         int size = filesList.size();
 
-        if (size<1){
+        if (size < 1) {
 
             recyclerView.setVisibility(View.GONE);
             nodata.setVisibility(View.VISIBLE);

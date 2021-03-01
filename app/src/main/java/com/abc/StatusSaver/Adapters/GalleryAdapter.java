@@ -24,7 +24,6 @@ import com.abc.StatusSaver.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,10 +56,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-        if(files.getUri().toString().endsWith(".mp4"))
-        {
+        if (files.getUri().toString().endsWith(".mp4")) {
             holder.playIcon.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             holder.playIcon.setVisibility(View.INVISIBLE);
         }
         Glide.with(context)
@@ -71,9 +69,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
                 .centerCrop()
                 .into(holder.savedImage);
         holder.savedImage.setOnClickListener(v -> {
-            if(files.getUri().toString().endsWith(".mp4")){
+            if (files.getUri().toString().endsWith(".mp4")) {
                 Uri VideoURI = FileProvider.getUriForFile(context,
-                        context.getApplicationContext().getPackageName() + ".provider",file);
+                        context.getApplicationContext().getPackageName() + ".provider", file);
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -84,9 +82,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
                 } catch (ActivityNotFoundException e) {
 
                 }
-            }else if(files.getUri().toString().endsWith(".jpg")){
+            } else if (files.getUri().toString().endsWith(".jpg")) {
                 Uri VideoURI = FileProvider.getUriForFile(context,
-                        context.getApplicationContext().getPackageName() + ".provider",file);
+                        context.getApplicationContext().getPackageName() + ".provider", file);
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -102,7 +100,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
         });
         holder.repostID.setOnClickListener(v -> {
             Uri mainUri = Uri.fromFile(file);
-            if(files.getUri().toString().endsWith(".jpg")){
+            if (files.getUri().toString().endsWith(".jpg")) {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, mainUri);
@@ -114,7 +112,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
                     Toast.makeText(context, "No application found to open this file.",
                             Toast.LENGTH_LONG).show();
                 }
-            }else if(files.getUri().toString().endsWith(".mp4")){
+            } else if (files.getUri().toString().endsWith(".mp4")) {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("video/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, mainUri);
@@ -142,17 +140,16 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, filesList.size());
                                 notifyDataSetChanged();
-                                if(del){
+                                if (del) {
                                     MediaScannerConnection.scanFile(context,
-                                            new String[]{ path, path},
-                                            new String[]{ "image/jpg","video/mp4"},
-                                            new MediaScannerConnection.MediaScannerConnectionClient()
-                                            {
-                                                public void onMediaScannerConnected()
-                                                {
+                                            new String[]{path, path},
+                                            new String[]{"image/jpg", "video/mp4"},
+                                            new MediaScannerConnection.MediaScannerConnectionClient() {
+                                                public void onMediaScannerConnected() {
                                                 }
-                                                public void onScanCompleted(String path1, Uri uri1)
-                                                { Log.d("Video path: ", path1);
+
+                                                public void onScanCompleted(String path1, Uri uri1) {
+                                                    Log.d("Video path: ", path1);
                                                 }
                                             });
                                 }
@@ -168,7 +165,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
 
         holder.shareID.setOnClickListener(v -> {
             Uri mainUri = Uri.fromFile(file);
-            if(files.getUri().toString().endsWith(".jpg")){
+            if (files.getUri().toString().endsWith(".jpg")) {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, mainUri);
@@ -180,7 +177,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
                     Toast.makeText(context, "No application found to open this file.",
                             Toast.LENGTH_LONG).show();
                 }
-            }else if(files.getUri().toString().endsWith(".mp4")){
+            } else if (files.getUri().toString().endsWith(".mp4")) {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("video/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, mainUri);
@@ -199,19 +196,21 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
     public int getItemCount() {
         return filesList.size();
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView savedImage;
         private final ImageView playIcon;
-       private final Button repostID;
+        private final Button repostID;
         private final Button shareID;
         private final Button deleteID;
+
         public ViewHolder(View itemView) {
             super(itemView);
             savedImage = itemView.findViewById(R.id.ThumbimgView);
             playIcon = itemView.findViewById(R.id.playIcon_gallery);
-            repostID =itemView.findViewById(R.id.repostbtn);
+            repostID = itemView.findViewById(R.id.repostbtn);
             shareID = itemView.findViewById(R.id.Share_btn);
-            deleteID =  itemView.findViewById(R.id.Delete_btn);
+            deleteID = itemView.findViewById(R.id.Delete_btn);
         }
     }
 }

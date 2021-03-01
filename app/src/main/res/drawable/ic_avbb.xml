@@ -1,3 +1,6 @@
-<vector android:alpha="0.8" android:height="60dp"
-    android:viewportHeight="5111" android:viewportWidth="5326"
-    android:width="62.523968dp" xmlns:android="http://schemas.android.com/apk/res/android"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="62.523968dp"
+    android:height="60dp"
+    android:alpha="0.8"
+    android:viewportWidth="5326"
+    android:viewportHeight="5111" />

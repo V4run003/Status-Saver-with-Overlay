@@ -32,10 +32,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.abc.StatusSaver.Interface.AdlistenerInterface;
 import com.abc.StatusSaver.Fragments.GalleryFragment;
 import com.abc.StatusSaver.Fragments.SaverFragment;
 import com.abc.StatusSaver.Fragments.SettingsFragment;
+import com.abc.StatusSaver.Interface.AdlistenerInterface;
 import com.abc.StatusSaver.Services.FloatingService;
 import com.abc.StatusSaver.Services.FloatingViewService;
 import com.abc.StatusSaver.Services.Isevice;
@@ -55,207 +55,44 @@ import static com.abc.StatusSaver.Utils.Constants.MyPREFERENCES;
 
 public class MainActivity extends AppCompatActivity implements AdlistenerInterface {
     public static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 123;
-    private ViewPager viewPager;
-    private BottomNavigationView navigationView;
-    private TextView textView;
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
-    private AdView adView;
-    private InterstitialAd InterstitialAd;
     AdRequest adRequest2;
     int i = 0;
     Boolean started;
-
-
-    @SuppressLint("BatteryLife")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            started = extras.getBoolean("walkthrough");
-            Log.e("started", String.valueOf(started));
-            // and get whatever type user account id is
-        }
-
-        MobileAds.initialize(this, initializationStatus -> {});
-        adView = new AdView(this);
-        adView.setAdSize(AdSize.BANNER);
-        adView.setAdUnitId(String.valueOf(R.string.banner_adid));
-        adView = findViewById(R.id.adView);
-        new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("99D32CE93ABCCE3BAEC035DEF9D69FB7"));
-        adRequest2 = new AdRequest.Builder()
-                .addTestDevice("99D32CE93ABCCE3BAEC035DEF9D69FB7")
-                .build();
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        adView.loadAd(adRequest);
-        init();
-        initInterface();
-        String requiredPermission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        int checkVal = this.checkCallingOrSelfPermission(requiredPermission);
-        if (checkVal==PackageManager.PERMISSION_DENIED) {
-            int currentAPIVersion = Build.VERSION.SDK_INT;
-            if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission
-                        .WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                                ActivityCompat.requestPermissions(MainActivity.this,
-                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                        MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
-                    } else {
-                        ActivityCompat.requestPermissions(MainActivity.this,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
-                    }
-                }
-            }
-
-        }   if(!hasUsageStatsPermission(this)) {
-            startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(
-                    this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + getPackageName()));
-                            startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
-            }
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    Intent intent = new Intent();
-                    String packageName = getPackageName();
-                    PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-                    if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                        addAutoStartup();
-                        miuibattery();
-                        intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        intent.setData(Uri.parse("package:" + packageName));
-                        startActivity(intent);
-                    }
-                }
-
-        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES,
-                Context.MODE_PRIVATE);
-        String aa = sharedpreferences.getString("Overlay", "null");
-        switch (aa) {
-            case "checked":
-                StartIService();
-                break;
-            case "unchecked":
-                Intent intent = new Intent(MainActivity.this, Isevice.class);
-                stopService(intent);
-                Intent intent2 = new Intent(MainActivity.this, FloatingService.class);
-                stopService(intent2);
-                Intent intent3 = new Intent(MainActivity.this, FloatingViewService.class);
-                stopService(intent3);
-                break;
-            case "null":
-                StartIService();
-                break;
-        }
-        SharedPreferences darkModePref = this.getSharedPreferences
-                (MyPREFERENCES, Context.MODE_PRIVATE);
-        String dark = darkModePref.getString("Uimode","null");
-        if (dark.equals("checked")){
-            int currentNightMode = getResources().getConfiguration().uiMode
-                    & Configuration.UI_MODE_NIGHT_MASK;
-            if (currentNightMode == Configuration.UI_MODE_NIGHT_NO)
-            {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }
-        } else  if (dark.equals("unchecked")){
-            int currentNightMode = getResources().getConfiguration().uiMode
-                    & Configuration.UI_MODE_NIGHT_MASK;
-            if (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
-            {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
-        }
-
-    }
-
-    private void StartIService() {
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
-
-        startForegroundService(new Intent(this, Isevice.class));
-    } else {
-        startService((new Intent(this, Isevice.class)));
-    }
-    }
-
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    boolean hasUsageStatsPermission(Context context) {
-        AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-        assert appOps != null;
-        int mode = appOps.checkOpNoThrow("android:get_usage_stats",
-                android.os.Process.myUid(), context.getPackageName());
-        return mode == AppOpsManager.MODE_ALLOWED;
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull
-            int[] grantResults) {
-        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            } else {
-                Toast.makeText(this, "Please allow Storage permission to continue",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-    private void init() {
-        viewPager = findViewById(R.id.view_pager);
-        navigationView = findViewById(R.id.bottom_nav);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new SaverFragment());
-        viewPagerAdapter.addFragment(new GalleryFragment());
-        viewPagerAdapter.addFragment(new SettingsFragment());
-        viewPager.setAdapter(viewPagerAdapter);
-        textView = findViewById(R.id.title);
-        if (started){
-            viewPager.setCurrentItem(2);
-        }
-    }
-
-    private void initInterface() {
-        viewPager.addOnPageChangeListener(pageChangeListener);
-        navigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-
-    }
+    private ViewPager viewPager;
+    private BottomNavigationView navigationView;
+    private TextView textView;
     private final ViewPager.OnPageChangeListener pageChangeListener =
             new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        }
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onPageSelected(int position) {
-            switch (position) {
-                case 0:
-                    navigationView.setSelectedItemId(R.id.nav_status);
-                    textView.setText("Status Saver");
-                    break;
-                case 1:
-                    navigationView.setSelectedItemId(R.id.nav_gallery);
-                    textView.setText("Saved Status");
-                    break;
-                case 2:
-                    navigationView.setSelectedItemId(R.id.nav_settings);
-                    textView.setText("Settings");
-                    break;
-            }
-        }
+                }
 
-        @Override
-        public void onPageScrollStateChanged(int state) {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onPageSelected(int position) {
+                    switch (position) {
+                        case 0:
+                            navigationView.setSelectedItemId(R.id.nav_status);
+                            textView.setText("Status Saver");
+                            break;
+                        case 1:
+                            navigationView.setSelectedItemId(R.id.nav_gallery);
+                            textView.setText("Saved Status");
+                            break;
+                        case 2:
+                            navigationView.setSelectedItemId(R.id.nav_settings);
+                            textView.setText("Settings");
+                            break;
+                    }
+                }
 
-        }
-    };
+                @Override
+                public void onPageScrollStateChanged(int state) {
 
+                }
+            };
     private final BottomNavigationView.OnNavigationItemSelectedListener
             navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @SuppressLint({"SetTextI18n", "NonConstantResourceId"})
@@ -279,6 +116,167 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
             return false;
         }
     };
+    private AdView adView;
+    private InterstitialAd InterstitialAd;
+
+    @SuppressLint("BatteryLife")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            started = extras.getBoolean("walkthrough");
+            Log.e("started", String.valueOf(started));
+            // and get whatever type user account id is
+        }
+
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(String.valueOf(R.string.banner_adid));
+        adView = findViewById(R.id.adView);
+        new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("99D32CE93ABCCE3BAEC035DEF9D69FB7"));
+        adRequest2 = new AdRequest.Builder()
+                .addTestDevice("99D32CE93ABCCE3BAEC035DEF9D69FB7")
+                .build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adView.loadAd(adRequest);
+        init();
+        initInterface();
+        String requiredPermission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        int checkVal = this.checkCallingOrSelfPermission(requiredPermission);
+        if (checkVal == PackageManager.PERMISSION_DENIED) {
+            int currentAPIVersion = Build.VERSION.SDK_INT;
+            if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission
+                        .WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+                    } else {
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+                    }
+                }
+            }
+
+        }
+        if (!hasUsageStatsPermission(this)) {
+            startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(
+                this)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            String packageName = getPackageName();
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                addAutoStartup();
+                miuibattery();
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivity(intent);
+            }
+        }
+
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES,
+                Context.MODE_PRIVATE);
+        String aa = sharedpreferences.getString("Overlay", "null");
+        switch (aa) {
+            case "checked":
+                StartIService();
+                break;
+            case "unchecked":
+                Intent intent = new Intent(MainActivity.this, Isevice.class);
+                stopService(intent);
+                Intent intent2 = new Intent(MainActivity.this, FloatingService.class);
+                stopService(intent2);
+                Intent intent3 = new Intent(MainActivity.this, FloatingViewService.class);
+                stopService(intent3);
+                break;
+            case "null":
+                StartIService();
+                break;
+        }
+        SharedPreferences darkModePref = this.getSharedPreferences
+                (MyPREFERENCES, Context.MODE_PRIVATE);
+        String dark = darkModePref.getString("Uimode", "null");
+        if (dark.equals("checked")) {
+            int currentNightMode = getResources().getConfiguration().uiMode
+                    & Configuration.UI_MODE_NIGHT_MASK;
+            if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+        } else if (dark.equals("unchecked")) {
+            int currentNightMode = getResources().getConfiguration().uiMode
+                    & Configuration.UI_MODE_NIGHT_MASK;
+            if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        }
+
+    }
+
+    private void StartIService() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            startForegroundService(new Intent(this, Isevice.class));
+        } else {
+            startService((new Intent(this, Isevice.class)));
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    boolean hasUsageStatsPermission(Context context) {
+        AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+        assert appOps != null;
+        int mode = appOps.checkOpNoThrow("android:get_usage_stats",
+                android.os.Process.myUid(), context.getPackageName());
+        return mode == AppOpsManager.MODE_ALLOWED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull
+            int[] grantResults) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            } else {
+                Toast.makeText(this, "Please allow Storage permission to continue",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void init() {
+        viewPager = findViewById(R.id.view_pager);
+        navigationView = findViewById(R.id.bottom_nav);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragment(new SaverFragment());
+        viewPagerAdapter.addFragment(new GalleryFragment());
+        viewPagerAdapter.addFragment(new SettingsFragment());
+        viewPager.setAdapter(viewPagerAdapter);
+        textView = findViewById(R.id.title);
+        if (started) {
+            viewPager.setCurrentItem(2);
+        }
+    }
+
+    private void initInterface() {
+        viewPager.addOnPageChangeListener(pageChangeListener);
+        navigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+    }
 
     public void refreshMyData() {
         Intent intent = getIntent();
@@ -290,6 +288,76 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
     @Override
     public void ItemDetail(int downloadedTimes) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.moveTaskToBack(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES,
+                Context.MODE_PRIVATE);
+        String aa = sharedpreferences.getString("Overlay", "null");
+        if (aa.equals("unchecked")) {
+            Intent intent = new Intent(MainActivity.this, Isevice.class);
+            stopService(intent);
+            Intent intent2 = new Intent(MainActivity.this, FloatingService.class);
+            stopService(intent2);
+            Intent intent3 = new Intent(MainActivity.this, FloatingViewService.class);
+            stopService(intent3);
+        }
+
+
+        super.onDestroy();
+        //Intent broadcastIntent = new Intent("ac.in.ActivityRecognition.RestartSensor");
+        //sendBroadcast(broadcastIntent);
+
+
+    }
+
+    public Boolean Isstarted() {
+        return started;
+    }
+
+    private void miuibattery() {
+        try {
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName("com.miui.powerkeeper", "com.miui.powerkeeper.ui.HiddenAppsConfigActivity"));
+            intent.putExtra("package_name", getPackageName());
+            intent.putExtra("package_label", getText(R.string.app_name));
+            startActivity(intent);
+        } catch (ActivityNotFoundException anfe) {
+        }
+    }
+
+    private void addAutoStartup() {
+
+
+        try {
+            Intent intent = new Intent();
+            String manufacturer = android.os.Build.MANUFACTURER;
+            if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+            } else if ("oppo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+            } else if ("vivo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+            } else if ("Letv".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+            } else if ("Honor".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+            }
+
+            List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if (list.size() > 0) {
+                startActivity(intent);
+            }
+        } catch (Exception e) {
+            Log.e("exc", String.valueOf(e));
+        }
     }
 
     private static class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -315,77 +383,6 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
 
         void addFragment(Fragment fragment) {
             fragments.add(fragment);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-            this.moveTaskToBack(true);
-    }
-
-    @Override
-    protected void onDestroy() {
-
-        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES,
-                Context.MODE_PRIVATE);
-        String aa = sharedpreferences.getString("Overlay", "null");
-        if (aa.equals("unchecked")){
-            Intent intent = new Intent(MainActivity.this, Isevice.class);
-            stopService(intent);
-            Intent intent2 = new Intent(MainActivity.this, FloatingService.class);
-            stopService(intent2);
-            Intent intent3 = new Intent(MainActivity.this, FloatingViewService.class);
-            stopService(intent3);
-        }
-
-
-        super.onDestroy();
-        //Intent broadcastIntent = new Intent("ac.in.ActivityRecognition.RestartSensor");
-        //sendBroadcast(broadcastIntent);
-
-
-    }
-
-    public Boolean Isstarted() {
-        return started;
-    }
-
-    private void miuibattery(){
-        try {
-            Intent intent = new Intent();
-            intent.setComponent(new ComponentName("com.miui.powerkeeper", "com.miui.powerkeeper.ui.HiddenAppsConfigActivity"));
-            intent.putExtra("package_name", getPackageName());
-            intent.putExtra("package_label", getText(R.string.app_name));
-            startActivity(intent);
-        } catch (ActivityNotFoundException anfe) {
-        }
-    }
-
-
-    private void addAutoStartup() {
-
-
-        try {
-            Intent intent = new Intent();
-            String manufacturer = android.os.Build.MANUFACTURER;
-            if ("xiaomi".equalsIgnoreCase(manufacturer)) {
-                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
-            } else if ("oppo".equalsIgnoreCase(manufacturer)) {
-                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
-            } else if ("vivo".equalsIgnoreCase(manufacturer)) {
-                intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
-            } else if ("Letv".equalsIgnoreCase(manufacturer)) {
-                intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
-            } else if ("Honor".equalsIgnoreCase(manufacturer)) {
-                intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
-            }
-
-            List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            if  (list.size() > 0) {
-                startActivity(intent);
-            }
-        } catch (Exception e) {
-            Log.e("exc" , String.valueOf(e));
         }
     }
 }

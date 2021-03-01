@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:padding="20dp"
         android:layout_margin="50dp"
         android:adjustViewBounds="true"
+        android:padding="20dp"
         android:src="@drawable/icons"
         tools:ignore="ContentDescription" />
 
@@ -22,10 +22,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="12dp"
-        android:textSize="18sp"
         android:fontFamily="@font/roboto_regular"
-        android:textColor="@color/text_color_disc"
         android:text="Status Saver"
+        android:textColor="@color/text_color_disc"
+        android:textSize="18sp"
         tools:ignore="HardcodedText" />
 
 </RelativeLayout>

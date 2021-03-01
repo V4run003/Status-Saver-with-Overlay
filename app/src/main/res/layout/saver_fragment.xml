@@ -3,72 +3,68 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/bg"
     android:layout_height="match_parent"
-    >
+    android:background="@color/bg">
 
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:background="@color/bg"
-    android:layout_height="match_parent">
-
-
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
+        <include layout="@layout/content_main" />
 
-    <include layout="@layout/content_main"/>
+        <TextView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@color/bg"
+            android:fontFamily="@font/roboto_medium"
+            android:text="No Whatsapp Status Found"
+            android:textColor="@color/btn_saved"
+            android:textSize="18dp"
+            android:visibility="gone" />
 
-    <TextView
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <RelativeLayout
+        android:id="@+id/goto_top_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/no_data"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:text="No Whatsapp Status Found"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/btn_saved"
-        android:textSize="18dp"
-        android:background="@color/bg"
-        android:visibility="gone"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:id="@+id/goto_top_btn"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:elevation="5dp"
-        android:visibility="gone"
         android:background="@drawable/goto_top"
-        >
+        android:elevation="5dp"
+        android:visibility="gone">
+
         <ImageView
+            android:id="@+id/top_img"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:id="@+id/top_img"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:src="@drawable/ic_baseline_arrow_upward_24"
             app:tint="@color/disc_blue" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/top_img"
-            android:text="Go to top"
-            android:layout_marginStart="8dp"
-            android:textSize="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/disc_blue"
-            android:fontFamily="@font/roboto_regular"
             android:layout_centerVertical="true"
-            />
-
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@+id/top_img"
+            android:fontFamily="@font/roboto_regular"
+            android:text="Go to top"
+            android:textColor="@color/disc_blue"
+            android:textSize="15dp" />
 
 
     </RelativeLayout>

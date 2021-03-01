@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg"
     tools:context=".MainActivity">
 
@@ -12,77 +12,74 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_nav">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg">
-
-    <com.google.android.material.appbar.CollapsingToolbarLayout
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:fitsSystemWindows="true"
-        android:background="@color/bg"
-        app:layout_scrollFlags="exitUntilCollapsed|snap"
-        app:titleEnabled="true">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Status Saver"
-          android:layout_centerHorizontal="true"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="#128C7E"
-            android:textSize="24sp"
-            android:letterSpacing=".03"
-            android:textAllCaps="false"
-            tools:ignore="HardcodedText" />
+            android:background="@color/bg">
 
-    </RelativeLayout>
-    </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/bg"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="exitUntilCollapsed|snap"
+                app:titleEnabled="true">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing=".03"
+                        android:text="Status Saver"
+                        android:textAllCaps="false"
+                        android:textColor="#128C7E"
+                        android:textSize="24sp"
+                        tools:ignore="HardcodedText" />
+
+                </RelativeLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
 
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_nav"
-        android:background="@color/bg"
-        android:layout_marginBottom="0dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        android:overScrollMode="never" />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_nav"
+            android:layout_marginBottom="0dp"
+            android:background="@color/bg"
+            android:overScrollMode="never"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_nav"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        android:layout_above="@+id/bottom_nav"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
-    </com.google.android.gms.ads.AdView>
-
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
         android:id="@+id/bottom_nav"
-        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@color/bg"
         android:elevation="5dp"
+        android:nestedScrollingEnabled="true"
         app:itemIconTint="@color/nav_icon_color_selector"
         app:itemTextAppearanceActive="@style/navStyle"
         app:itemTextAppearanceInactive="@style/navStyle"
-        android:nestedScrollingEnabled="true"
         app:itemTextColor="@color/nav_icon_color_selector"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/nav_menu" />

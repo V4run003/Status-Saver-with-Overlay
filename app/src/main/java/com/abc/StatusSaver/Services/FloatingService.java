@@ -1,7 +1,6 @@
 package com.abc.StatusSaver.Services;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -19,29 +17,38 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.abc.StatusSaver.MainActivity;
 import com.abc.StatusSaver.R;
-import com.abc.StatusSaver.StartActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.co.recruit_lifestyle.android.floatingview.FloatingViewListener;
 import jp.co.recruit_lifestyle.android.floatingview.FloatingViewManager;
 
 public class FloatingService extends Service implements FloatingViewListener {
-    private static final String TAG = "FloatingService";
     public static final String EXTRA_CUTOUT_SAFE_AREA = "cutout_safe_area";
+    private static final String TAG = "FloatingService";
     private static final int NOTIFICATION_ID = 9083150;
     private static final int AA = 1;
-    private FloatingViewManager mFloatingViewManager;
     CircleImageView iconView;
-
     Context mContext;
+    private FloatingViewManager mFloatingViewManager;
+
+    private static Notification createNotification(Context context) {
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.default_floatingview_channel_id));
+        builder.setWhen(System.currentTimeMillis());
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setContentTitle(context.getString(R.string.chathead_content_title));
+        builder.setContentText(context.getString(R.string.content_text));
+        builder.setOngoing(true);
+        builder.setPriority(NotificationCompat.PRIORITY_MIN);
+        builder.setCategory(NotificationCompat.CATEGORY_SERVICE);
+        return builder.build();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -66,11 +73,11 @@ public class FloatingService extends Service implements FloatingViewListener {
         final FloatingViewManager.Options options = new FloatingViewManager.Options();
         options.overMargin = (int) (16 * metrics.density);
         mFloatingViewManager.addViewToWindow(iconView, options);
-      iconView.setOnLongClickListener(v -> {
-          Intent intent2 = new Intent(mContext, FloatingViewService.class);
-          mContext.stopService(intent2);
-          return false;
-      });
+        iconView.setOnLongClickListener(v -> {
+            Intent intent2 = new Intent(mContext, FloatingViewService.class);
+            mContext.stopService(intent2);
+            return false;
+        });
         iconView.setOnClickListener(v -> {
             Intent is2 = new Intent(FloatingService.this, FloatingViewService.class);
             startService(is2);
@@ -82,7 +89,7 @@ public class FloatingService extends Service implements FloatingViewListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startMyOwnForeground();
         else
-        startForeground(NOTIFICATION_ID, createNotification(this));
+            startForeground(NOTIFICATION_ID, createNotification(this));
 
         return START_REDELIVER_INTENT;
     }
@@ -108,22 +115,17 @@ public class FloatingService extends Service implements FloatingViewListener {
                 .build();
         startForeground(2, notification);
     }
+
     @Override
     public void onDestroy() {
         destroy();
         super.onDestroy();
     }
 
-
-
-
-
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 
     @Override
     public void onFinishFloatingView() {
@@ -135,7 +137,6 @@ public class FloatingService extends Service implements FloatingViewListener {
         Log.d(TAG, "deleted");
     }
 
-
     @SuppressLint("StringFormatInvalid")
     @Override
     public void onTouchFinished(boolean isFinishing, int x, int y) {
@@ -146,7 +147,7 @@ public class FloatingService extends Service implements FloatingViewListener {
 
         } else {
             Handler handler = new Handler(Looper.getMainLooper());
-            handler.postDelayed(() ->  {
+            handler.postDelayed(() -> {
 
                 iconView.setImageResource(R.mipmap.ic_launcher);
                 iconView.animate().alpha(0.4f).setDuration(400);
@@ -155,6 +156,7 @@ public class FloatingService extends Service implements FloatingViewListener {
         }
 
     }
+
     private void destroy() {
         final Intent intent = new Intent(FloatingService.this, FloatingViewService.class);
         stopService(intent);
@@ -162,20 +164,5 @@ public class FloatingService extends Service implements FloatingViewListener {
             mFloatingViewManager.removeAllViewToWindow();
             mFloatingViewManager = null;
         }
-    }
-
-
-
-    
-    private static Notification createNotification(Context context) {
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, context.getString(R.string.default_floatingview_channel_id));
-        builder.setWhen(System.currentTimeMillis());
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle(context.getString(R.string.chathead_content_title));
-        builder.setContentText(context.getString(R.string.content_text));
-        builder.setOngoing(true);
-        builder.setPriority(NotificationCompat.PRIORITY_MIN);
-        builder.setCategory(NotificationCompat.CATEGORY_SERVICE);
-        return builder.build();
     }
 }

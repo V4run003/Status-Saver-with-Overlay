@@ -29,13 +29,12 @@ import java.util.Objects;
 import static com.abc.StatusSaver.R.drawable.settings_outline_focus;
 import static com.abc.StatusSaver.Utils.Constants.MyPREFERENCES;
 
-public class SettingsFragment extends Fragment  {
-    private Context mContext;
-    private SharedPreferences darkModePref;
+public class SettingsFragment extends Fragment {
     RelativeLayout shareApp;
     RelativeLayout focusableOverlay;
     Boolean isTuto;
-
+    private Context mContext;
+    private SharedPreferences darkModePref;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -55,7 +54,7 @@ public class SettingsFragment extends Fragment  {
         shareApp = view.findViewById(R.id.shareApp);
         MainActivity activity = (MainActivity) getActivity();
         isTuto = activity.Isstarted();
-        if (isTuto){
+        if (isTuto) {
             focusableOverlay.setBackground(getResources().getDrawable(settings_outline_focus));
             Animation anim = new AlphaAnimation(0.3f, 1.0f);
             anim.setDuration(500); //You can manage the blinking time with this parameter
@@ -94,7 +93,7 @@ public class SettingsFragment extends Fragment  {
 
         darkModePref = SettingsFragment.this.getActivity().getSharedPreferences
                 (MyPREFERENCES, Context.MODE_PRIVATE);
-        String dark = darkModePref.getString("Uimode","null");
+        String dark = darkModePref.getString("Uimode", "null");
         switch (dark) {
             case "checked":
                 darkMode.setChecked(true);
@@ -110,20 +109,20 @@ public class SettingsFragment extends Fragment  {
             DarkMode();
         });
 
-        shareApp.setOnClickListener(v->{
+        shareApp.setOnClickListener(v -> {
             try {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Status Saver");
-                String shareMessage= "\n\n*Introducing Status Saver*\n " +
+                String shareMessage = "\n\n*Introducing Status Saver*\n " +
                         "Use Whatsapp status saver within whatsapp\n"
-                         +
+                        +
                         "App Available in Play Store\n\n";
                 shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" +
-                        BuildConfig.APPLICATION_ID +"\n\n";
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                        BuildConfig.APPLICATION_ID + "\n\n";
+                shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
                 startActivity(Intent.createChooser(shareIntent, "Share to"));
-            } catch(Exception e) {
+            } catch (Exception e) {
                 //e.toString();
             }
         });
@@ -153,15 +152,15 @@ public class SettingsFragment extends Fragment  {
     private void Bootup() {
         SharedPreferences bootuppref = SettingsFragment.this.getActivity().getSharedPreferences
                 (MyPREFERENCES, Context.MODE_PRIVATE);
-        String boot = bootuppref.getString("boot","null");
-        if (boot.equals("checked")){
+        String boot = bootuppref.getString("boot", "null");
+        if (boot.equals("checked")) {
             bootuppref = SettingsFragment.this.getActivity().getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editorDark;
             editorDark = bootuppref.edit();
             editorDark.putString("boot", "unchecked");
             editorDark.apply();
-        } else  if (boot.equals("unchecked")){
+        } else if (boot.equals("unchecked")) {
             bootuppref = SettingsFragment.this.getActivity().getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editorDark;
@@ -169,7 +168,7 @@ public class SettingsFragment extends Fragment  {
             editorDark.putString("boot", "checked");
             editorDark.apply();
 
-        } else  if (boot.equals("null")){
+        } else if (boot.equals("null")) {
             bootuppref = SettingsFragment.this.getActivity().getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editorDark;
@@ -191,15 +190,15 @@ public class SettingsFragment extends Fragment  {
 
         darkModePref = SettingsFragment.this.getActivity().getSharedPreferences
                 (MyPREFERENCES, Context.MODE_PRIVATE);
-        String dark = darkModePref.getString("Uimode","null");
-        if (dark.equals("checked")){
+        String dark = darkModePref.getString("Uimode", "null");
+        if (dark.equals("checked")) {
             darkModePref = SettingsFragment.this.getActivity().getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editorDark;
             editorDark = darkModePref.edit();
             editorDark.putString("Uimode", "unchecked");
             editorDark.apply();
-        } else  if (dark.equals("unchecked")){
+        } else if (dark.equals("unchecked")) {
             darkModePref = SettingsFragment.this.getActivity().getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editorDark;
@@ -207,7 +206,7 @@ public class SettingsFragment extends Fragment  {
             editorDark.putString("Uimode", "checked");
             editorDark.apply();
 
-        } else  if (dark.equals("null")){
+        } else if (dark.equals("null")) {
             darkModePref = SettingsFragment.this.getActivity().getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
             SharedPreferences.Editor editorDark;
@@ -218,7 +217,7 @@ public class SettingsFragment extends Fragment  {
     }
 
     private void startiservice() {
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mContext.startForegroundService(new Intent(mContext, Isevice.class));
         } else {
             mContext.startService((new Intent(mContext, Isevice.class)));
@@ -226,19 +225,19 @@ public class SettingsFragment extends Fragment  {
     }
 
     private void isUnchecked() {
-        SharedPreferences sharedpreferences1 =  SettingsFragment.this.getActivity().getSharedPreferences
+        SharedPreferences sharedpreferences1 = SettingsFragment.this.getActivity().getSharedPreferences
                 (MyPREFERENCES, Context.MODE_PRIVATE);
         String aa = sharedpreferences1.getString("Overlay", "null");
-        if (aa.equals("unchecked")){
+        if (aa.equals("unchecked")) {
             startiservice();
             SharedPreferences sharedpreferences;
             SharedPreferences.Editor editor;
-           sharedpreferences = SettingsFragment.this.getActivity().getSharedPreferences
-                   (MyPREFERENCES, Context.MODE_PRIVATE);
-           editor = sharedpreferences.edit();
+            sharedpreferences = SettingsFragment.this.getActivity().getSharedPreferences
+                    (MyPREFERENCES, Context.MODE_PRIVATE);
+            editor = sharedpreferences.edit();
             editor.putString("Overlay", "checked");
             editor.apply();
-        } else if(aa.equals("checked")) {
+        } else if (aa.equals("checked")) {
             SharedPreferences sharedpreferences2;
             sharedpreferences2 = SettingsFragment.this.getActivity().getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);
@@ -253,7 +252,7 @@ public class SettingsFragment extends Fragment  {
             Intent intent3 = new Intent(mContext, FloatingService.class);
             mContext.stopService(intent3);
 
-        }else if(aa.equals("null")) {
+        } else if (aa.equals("null")) {
             SharedPreferences sharedpreferences2;
             sharedpreferences2 = SettingsFragment.this.getActivity().getSharedPreferences
                     (MyPREFERENCES, Context.MODE_PRIVATE);

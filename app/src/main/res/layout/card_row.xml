@@ -5,14 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-   android:padding="8dp">
+    android:padding="8dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/action"
-        card_view:cardCornerRadius="10dp"
-       >
+        card_view:cardCornerRadius="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -31,14 +30,14 @@
                 android:scaleType="centerCrop" />
 
             <ImageView
+                android:id="@+id/playIcon_saver"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/playIcon_saver"
-              android:layout_marginBottom="140dp"
-                android:src="@drawable/play"
+                android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-               android:layout_centerHorizontal="true"
+                android:layout_marginBottom="140dp"
                 android:alpha="0.8"
+                android:src="@drawable/play"
                 app:tint="#FFFFFF" />
 
 
@@ -47,32 +46,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:background="@drawable/button_cont"
                 android:elevation="5dp"
-                android:layout_centerHorizontal="true"
                 android:orientation="horizontal">
 
                 <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                     android:id="@+id/downloadID"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:textAlignment="center"
+                    android:layout_centerInParent="true"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/button_shape"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Save to gallery"
-                    android:layout_centerInParent="true"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
                 <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-                    android:layout_width="match_parent"
                     android:id="@+id/share_media"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:textAlignment="center"
+                    android:layout_centerInParent="true"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
@@ -80,21 +79,21 @@
                     android:fontFamily="@font/roboto_regular"
                     android:foreground="@drawable/ic_outline_share_24"
                     android:foregroundGravity="center_horizontal|center_vertical"
-                    android:visibility="gone"
-                    android:layout_centerInParent="true"
+                    android:textAlignment="center"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/saved_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="Saved!"
-                    android:textColor="@color/btn_saved"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/roboto_regular"
-                    android:id="@+id/saved_txt"/>
+                    android:text="Saved!"
+                    android:textColor="@color/btn_saved"
+                    android:textSize="15sp" />
 
 
                 <!-- <TextView

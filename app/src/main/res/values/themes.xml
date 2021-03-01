@@ -15,11 +15,12 @@
         <item name="android:navigationBarColor" tools:targetApi="21">@color/white</item>
         <!-- Customize your theme here. -->
     </style>
-<style name="walkthrough" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-    <item name="android:statusBarColor" tools:targetApi="l">#CBCFD2</item>
-    <item name="android:windowLightStatusBar">true</item>
-    <item name="android:navigationBarColor" tools:targetApi="21">#CBCFD2</item>
-</style>
+
+    <style name="walkthrough" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor" tools:targetApi="l">#CBCFD2</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">#CBCFD2</item>
+    </style>
 
 </resources>
 

@@ -4,17 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -41,12 +37,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import jp.co.recruit_lifestyle.android.floatingview.FloatingViewManager;
+public class FloatingViewService extends Service {
 
-import static com.abc.StatusSaver.Utils.Constants.MyPREFERENCES;
-
-public class FloatingViewService extends Service  {
-
+    int xstart, ystart;
     private WindowManager mWindowManager;
     private View mFloatingView;
     private RecyclerView recyclerView;
@@ -56,7 +49,10 @@ public class FloatingViewService extends Service  {
     private View expandedView;
     private View collapsedView;
     private SwipeRefreshLayout recyclerLayout;
-    int xstart,ystart;
+
+    public FloatingViewService() {
+
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -65,14 +61,11 @@ public class FloatingViewService extends Service  {
 
     }
 
-    public FloatingViewService () {
-
-    }
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
+
     @SuppressLint("InflateParams")
     @Override
     public void onCreate() {
@@ -91,6 +84,7 @@ public class FloatingViewService extends Service  {
         setUpRecyclerView();
         setFloating();
     }
+
     private void init() {
         recyclerView = mFloatingView.findViewById(R.id.recycler_view_overlay);
         recyclerLayout = mFloatingView.findViewById(R.id.swipeRecyclerView_overLay);
@@ -98,12 +92,11 @@ public class FloatingViewService extends Service  {
             LinearLayoutManager myLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             assert myLayoutManager != null;
             int scrollPosition = myLayoutManager.findFirstVisibleItemPosition();
-            if (scrollPosition>3){
+            if (scrollPosition > 3) {
                 gototop.setVisibility(View.VISIBLE);
                 gototop.setOnClickListener(v1 -> myLayoutManager.smoothScrollToPosition
-                        (recyclerView,null, 0));
-            }
-            else gototop.setVisibility(View.INVISIBLE);
+                        (recyclerView, null, 0));
+            } else gototop.setVisibility(View.INVISIBLE);
         });
         recyclerLayout.setOnRefreshListener(() -> {
             recyclerLayout.setRefreshing(true);
@@ -118,6 +111,7 @@ public class FloatingViewService extends Service  {
 
         });
     }
+
     private void setUpRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         OverlayAdapter recyclerViewAdapter = new OverlayAdapter(mContext, getData());
@@ -125,6 +119,7 @@ public class FloatingViewService extends Service  {
         recyclerViewAdapter.notifyDataSetChanged();
         recyclerView.setHasFixedSize(true);
     }
+
     private ArrayList<Object> getData() {
 
         ArrayList<Object> filesList = new ArrayList<>();
@@ -151,7 +146,7 @@ public class FloatingViewService extends Service  {
             for (int i = 0; i < files.length; i++) {
                 File file = files[i];
                 f = new StoryModel();
-                f.setName("Status: "+(i+1));
+                f.setName("Status: " + (i + 1));
                 f.setUri(Uri.fromFile(file));
                 f.setPath(files[i].getAbsolutePath());
                 f.setFilename(file.getName());
@@ -161,10 +156,10 @@ public class FloatingViewService extends Service  {
             e.printStackTrace();
         }
         int size = filesList.size();
-       if (size<1){
-           recyclerView.setVisibility(View.GONE);
-           nodata.setVisibility(View.VISIBLE);
-       }
+        if (size < 1) {
+            recyclerView.setVisibility(View.GONE);
+            nodata.setVisibility(View.VISIBLE);
+        }
         return filesList;
 
 
@@ -193,10 +188,9 @@ public class FloatingViewService extends Service  {
         //Add the view to the window.
 
         //Specify the view position
-        params.gravity = Gravity.TOP| Gravity.LEFT;        //Initially view will be added to top-left corner
+        params.gravity = Gravity.TOP | Gravity.LEFT;        //Initially view will be added to top-left corner
         params.x = 0;
         params.y = 100;
-
 
 
         //Add the view to the window
@@ -207,11 +201,11 @@ public class FloatingViewService extends Service  {
         collapsedView = mFloatingView.findViewById(R.id.collapse_view);
         //The root element of the expanded view layout
         expandedView = mFloatingView.findViewById(R.id.expanded_container);
-       int heightExp = (int) ( getResources().getDisplayMetrics().heightPixels*0.5f);
-        int widthExp = (int) ( getResources().getDisplayMetrics().widthPixels*0.7f);
+        int heightExp = (int) (getResources().getDisplayMetrics().heightPixels * 0.5f);
+        int widthExp = (int) (getResources().getDisplayMetrics().widthPixels * 0.7f);
 
         RelativeLayout.LayoutParams layoutParams;
-        layoutParams = new RelativeLayout.LayoutParams(widthExp,heightExp);
+        layoutParams = new RelativeLayout.LayoutParams(widthExp, heightExp);
         expandedView.setLayoutParams(layoutParams);
 
 
@@ -219,14 +213,14 @@ public class FloatingViewService extends Service  {
         ImageView closeButtonCollapsed = mFloatingView.findViewById(R.id.close_btn);
         closeButtonCollapsed.setOnClickListener(view -> {
             stopSelf();
-                Toast.makeText(mContext, "Please exit Whatsapp to close Overlay",
-                        Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Please exit Whatsapp to close Overlay",
+                    Toast.LENGTH_SHORT).show();
         });
 
         //Set the close button
         ImageView closeButton = mFloatingView.findViewById(R.id.close_button);
         closeButton.setOnClickListener(view -> {
-           expandedView.animate().alpha(0f).setDuration(300);
+            expandedView.animate().alpha(0f).setDuration(300);
             expandedView.setVisibility(View.GONE);
             stopSelf();
             final Intent intent2 = new Intent(FloatingViewService.this, FloatingService.class);
@@ -244,8 +238,6 @@ public class FloatingViewService extends Service  {
             //close the service and remove view from the view hierarchy
             stopSelf();
         });
-
-
 
 
         //Drag and move floating view using user's touch action.
@@ -309,7 +301,6 @@ public class FloatingViewService extends Service  {
     private boolean isViewCollapsed() {
         return mFloatingView == null || mFloatingView.findViewById(R.id.collapse_view).getVisibility() == View.VISIBLE;
     }
-
 
 
     @Override

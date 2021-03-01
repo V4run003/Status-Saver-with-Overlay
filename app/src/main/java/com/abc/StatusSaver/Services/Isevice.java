@@ -12,8 +12,6 @@ import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
-import com.abc.StatusSaver.MainActivity;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.SortedMap;
@@ -51,25 +49,25 @@ public class Isevice extends Service {
                 if (aa.equals("checked")) {
                     final Intent intent2 = new Intent(Isevice.this, FloatingService.class);
                     ContextCompat.startForegroundService(Isevice.this, intent2);
-                } else if (aa.equals("null")){
+                } else if (aa.equals("null")) {
                     final Intent intent2 = new Intent(Isevice.this, FloatingService.class);
                     ContextCompat.startForegroundService(Isevice.this, intent2);
                 }
-                }
+            }
 
 
-            });
-
-
+        });
 
 
         return START_STICKY;
     }
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -79,10 +77,9 @@ public class Isevice extends Service {
             restartServiceIntent.setPackage(getPackageName());
             startService(restartServiceIntent);
             super.onTaskRemoved(rootIntent);
-        }
-        else if (aa.equals("unchecked")){
+        } else if (aa.equals("unchecked")) {
             stopSelf();
-            Log.d("stopped by user",aa);
+            Log.d("stopped by user", aa);
         }
     }
 

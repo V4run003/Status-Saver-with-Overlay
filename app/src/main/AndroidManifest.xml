@@ -28,9 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         tools:ignore="AllowBackup">
-        <activity android:name=".WalkthroughActivity"
-            android:theme="@style/walkthrough"
-            >
+        <activity
+            android:name=".WalkthroughActivity"
+            android:theme="@style/walkthrough">
 
         </activity>
 

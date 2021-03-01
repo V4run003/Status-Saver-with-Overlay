@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,8 +7,8 @@
 
     <com.google.android.ads.nativetemplates.TemplateView
         android:id="@+id/my_template"
-    app:gnt_template_type="@layout/gnt_small_template_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:gnt_template_type="@layout/gnt_small_template_view" />
 
 </LinearLayout>

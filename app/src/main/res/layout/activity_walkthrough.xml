@@ -10,14 +10,14 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:background="#CBCFD2"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#CBCFD2" />
 
     <RelativeLayout
-        android:background="#CBCFD2"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="#CBCFD2">
 
         <LinearLayout
             android:id="@+id/dot_layout"

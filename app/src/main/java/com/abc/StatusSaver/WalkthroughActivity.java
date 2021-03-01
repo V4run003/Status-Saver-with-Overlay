@@ -1,8 +1,5 @@
 package com.abc.StatusSaver;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AppOpsManager;
@@ -26,18 +23,54 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.abc.StatusSaver.Adapters.SlideAdapter;
-import com.abc.StatusSaver.Fragments.SettingsFragment;
 
 import java.util.List;
 
 public class WalkthroughActivity extends AppCompatActivity {
+    private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     private ViewPager viewPager;
     private LinearLayout dotLayout;
     private TextView[] dots;
     private int currentPage;
     private Button next_btn, back_btn;
-    private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
+    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int i, float v, int i1) {
+
+        }
+
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onPageSelected(int i) {
+
+            addDotsIndicator(i);
+            currentPage = i;
+
+            if (i == 0) {
+                next_btn.setText("Next");
+                back_btn.setVisibility(View.GONE);
+                back_btn.setAnimation(AnimationUtils.loadAnimation(WalkthroughActivity.this, R.anim.fade_out));
+            } else if (i == dots.length - 1) {
+                next_btn.setText("Finish");
+                back_btn.setVisibility(View.VISIBLE);
+            } else {
+                next_btn.setText("Next");
+                if (back_btn.getVisibility() == View.GONE) {
+                    back_btn.setVisibility(View.VISIBLE);
+                    back_btn.setAnimation(AnimationUtils.loadAnimation(WalkthroughActivity.this, R.anim.fade_in));
+                }
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +107,12 @@ public class WalkthroughActivity extends AppCompatActivity {
         next_btn.setText("Next");
 
         next_btn.setOnClickListener(v -> {
-            if (currentPage == 1){
+            if (currentPage == 1) {
                 overlayPerm();
-            } else if (currentPage == 2){
+            } else if (currentPage == 2) {
 
                 statsPerm();
-            } else if (currentPage == 3){
+            } else if (currentPage == 3) {
                 batteryperm();
             }
 
@@ -87,9 +120,9 @@ public class WalkthroughActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(currentPage + 1);
             else {
                 Intent intent = new Intent(WalkthroughActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
-               intent.putExtra("walkthrough",true);
-               startActivity(intent);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("walkthrough", true);
+                startActivity(intent);
             }
         });
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +135,7 @@ public class WalkthroughActivity extends AppCompatActivity {
 
     private void batteryperm() {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent();
             String packageName = getPackageName();
             PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
@@ -144,18 +177,17 @@ public class WalkthroughActivity extends AppCompatActivity {
             }
 
             List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            if  (list.size() > 0) {
+            if (list.size() > 0) {
                 startActivity(intent);
             }
         } catch (Exception e) {
-            Log.e("exc" , String.valueOf(e));
+            Log.e("exc", String.valueOf(e));
         }
     }
 
-
     private void statsPerm() {
 
-        if(!hasUsageStatsPermission(this)) {
+        if (!hasUsageStatsPermission(this)) {
             startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
         }
     }
@@ -168,7 +200,6 @@ public class WalkthroughActivity extends AppCompatActivity {
             startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
         }
     }
-
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     boolean hasUsageStatsPermission(Context context) {
@@ -198,40 +229,5 @@ public class WalkthroughActivity extends AppCompatActivity {
             dots[position].setTextColor(getResources().getColor(R.color.disc_blue));
         }
     }
-
-    ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int i, float v, int i1) {
-
-        }
-
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onPageSelected(int i) {
-
-            addDotsIndicator(i);
-            currentPage = i;
-
-            if (i == 0) {
-                next_btn.setText("Next");
-                back_btn.setVisibility(View.GONE);
-                back_btn.setAnimation(AnimationUtils.loadAnimation(WalkthroughActivity.this, R.anim.fade_out));
-            } else if (i == dots.length - 1) {
-                next_btn.setText("Finish");
-                back_btn.setVisibility(View.VISIBLE);
-            } else {
-                next_btn.setText("Next");
-                if (back_btn.getVisibility() == View.GONE) {
-                    back_btn.setVisibility(View.VISIBLE);
-                    back_btn.setAnimation(AnimationUtils.loadAnimation(WalkthroughActivity.this, R.anim.fade_in));
-                }
-            }
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int i) {
-
-        }
-    };
 
 }

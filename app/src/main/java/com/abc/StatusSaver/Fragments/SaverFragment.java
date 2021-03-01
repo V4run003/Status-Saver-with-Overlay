@@ -42,6 +42,7 @@ import java.util.Comparator;
 
 public class SaverFragment extends Fragment implements AdlistenerInterface {
 
+    AdRequest adRequest2;
     private Context mContext;
     private RecyclerView recyclerView;
     private View view;
@@ -49,7 +50,6 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
     private RelativeLayout gototop;
     private SwipeRefreshLayout recyclerLayout;
     private InterstitialAd InterstitialAd;
-    AdRequest adRequest2;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -84,12 +84,11 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
             LinearLayoutManager myLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
             assert myLayoutManager != null;
             int scrollPosition = myLayoutManager.findFirstVisibleItemPosition();
-            if (scrollPosition>3){
+            if (scrollPosition > 3) {
                 gototop.setVisibility(View.VISIBLE);
                 gototop.setOnClickListener(v1 -> myLayoutManager.smoothScrollToPosition
-                        (recyclerView,null, 0));
-            }
-            else gototop.setVisibility(View.INVISIBLE);
+                        (recyclerView, null, 0));
+            } else gototop.setVisibility(View.INVISIBLE);
         });
         recyclerLayout.setOnRefreshListener(() -> {
 
@@ -103,14 +102,15 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
 
         });
     }
+
     private void setUpRecyclerView() {
 
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext,2));
-        StoryAdapter recyclerViewAdapter = new StoryAdapter(mContext, getData(),this);
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
+        StoryAdapter recyclerViewAdapter = new StoryAdapter(mContext, getData(), this);
         recyclerView.setAdapter(recyclerViewAdapter);
         Boolean net = isNetworkAvailable();
-        if (net){
-            AdmobNativeAdAdapter admobNativeAdAdapter= AdmobNativeAdAdapter.Builder
+        if (net) {
+            AdmobNativeAdAdapter admobNativeAdAdapter = AdmobNativeAdAdapter.Builder
                     .with(
                             "ca-app-pub-3940256099942544/2247696110",//Create a native ad id from admob console
                             recyclerViewAdapter,//The adapter you would normally set to your recyClerView
@@ -131,6 +131,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
         recyclerViewAdapter.notifyDataSetChanged();
         recyclerView.setHasFixedSize(true);
     }
+
     private ArrayList<Object> getData() {
         ArrayList<Object> filesList = new ArrayList<>();
         StoryModel f;
@@ -153,7 +154,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
             for (int i = 0; i < files.length; i++) {
                 File file = files[i];
                 f = new StoryModel();
-                f.setName("Status: "+(i+1));
+                f.setName("Status: " + (i + 1));
                 f.setUri(Uri.fromFile(file));
                 f.setPath(files[i].getAbsolutePath());
                 f.setFilename(file.getName());
@@ -163,7 +164,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
             e.printStackTrace();
         }
         int size = filesList.size();
-        if (size<1){
+        if (size < 1) {
             recyclerView.setVisibility(View.GONE);
             nodata.setVisibility(View.VISIBLE);
         }
@@ -173,12 +174,12 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
     @Override
     public void ItemDetail(int downloadedTimes) {
 
-        if (downloadedTimes==3){
+        if (downloadedTimes == 3) {
             ProgressDialog pd = new ProgressDialog(mContext);
             pd.setMessage("Loading...");
             pd.show();
 
-            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext,"ca-app-pub-3940256099942544/1033173712", adRequest2, new InterstitialAdLoadCallback() {
+            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, "ca-app-pub-3940256099942544/1033173712", adRequest2, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                     // The mInterstitialAd reference will be null until
@@ -190,6 +191,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
                     Log.i("aa", "onAdLoaded");
                     InterstitialAd.show(getActivity());
                 }
+
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     // Handle the error
@@ -198,11 +200,11 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
                     pd.dismiss();
                 }
             });
-        } else  if (downloadedTimes==6){
+        } else if (downloadedTimes == 6) {
             ProgressDialog pd = new ProgressDialog(mContext);
             pd.setMessage("Loading...");
             pd.show();
-            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext,"ca-app-pub-3940256099942544/1033173712", adRequest2, new InterstitialAdLoadCallback() {
+            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, "ca-app-pub-3940256099942544/1033173712", adRequest2, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                     // The mInterstitialAd reference will be null until
@@ -214,6 +216,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
                     Log.i("aa", "onAdLoaded");
                     InterstitialAd.show(getActivity());
                 }
+
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     // Handle the error
@@ -222,11 +225,11 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
                     pd.dismiss();
                 }
             });
-        }else  if (downloadedTimes==12){
+        } else if (downloadedTimes == 12) {
             ProgressDialog pd = new ProgressDialog(mContext);
             pd.setMessage("Loading...");
             pd.show();
-            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext,"ca-app-pub-3940256099942544/1033173712", adRequest2, new InterstitialAdLoadCallback() {
+            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, "ca-app-pub-3940256099942544/1033173712", adRequest2, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                     // The mInterstitialAd reference will be null until
@@ -238,6 +241,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
                     Log.i("aa", "onAdLoaded");
                     InterstitialAd.show(getActivity());
                 }
+
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     // Handle the error

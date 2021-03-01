@@ -34,10 +34,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHolder>  {
+public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHolder> {
 
     private final Context context;
     private final ArrayList<Object> filesList;
+
     public OverlayAdapter(Context context, ArrayList<Object> filesList) {
         this.context = context;
         this.filesList = filesList;
@@ -47,7 +48,7 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row_overlay,
-                null,false);
+                null, false);
 
         return new ViewHolder(view);
     }
@@ -60,7 +61,7 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
         AtomicReference<File> file = new AtomicReference<>(new File(uri.getPath()));
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        if(files.getUri().toString().endsWith(".mp4")||files.getUri().toString().endsWith(".jpg")) {
+        if (files.getUri().toString().endsWith(".mp4") || files.getUri().toString().endsWith(".jpg")) {
             Glide.with(context)
                     .load(files.getUri())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -74,16 +75,16 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
         holder.itemView.animate().alpha(1).start();
         String filename = files.getFilename();
         String destPath_scn = Environment.getExternalStorageDirectory().getAbsolutePath()
-                + Constants.SAVE_FOLDER_NAME+filename;
-        if(new File(destPath_scn).exists()){
+                + Constants.SAVE_FOLDER_NAME + filename;
+        if (new File(destPath_scn).exists()) {
             holder.downloadID.animate().alpha(0f).setDuration(300);
             holder.downloadID.setVisibility(View.GONE);
             holder.shareId.animate().alpha(1f).setDuration(300);
-           holder.shareId.setVisibility(View.VISIBLE);
+            holder.shareId.setVisibility(View.VISIBLE);
         }
 
         holder.savedImage.setOnClickListener(v -> {
-            if(files.getUri().toString().endsWith(".mp4")){
+            if (files.getUri().toString().endsWith(".mp4")) {
                 Uri VideoURI = FileProvider.getUriForFile(context,
                         context.getApplicationContext().getPackageName()
                                 + ".provider", file.get());
@@ -99,7 +100,7 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
                     Toast.makeText(context, "No application found to open this file.",
                             Toast.LENGTH_LONG).show();
                 }
-            }else if(files.getUri().toString().endsWith(".jpg")){
+            } else if (files.getUri().toString().endsWith(".jpg")) {
                 Uri VideoURI = FileProvider.getUriForFile(context,
                         context.getApplicationContext().getPackageName()
                                 + ".provider", file.get());
@@ -118,7 +119,7 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
             }
         });
 
-            holder.downloadID.setOnClickListener(v -> {
+        holder.downloadID.setOnClickListener(v -> {
             checkFolder();
             final String path = ((StoryModel) filesList.get(position)).getPath();
             file.set(new File(path));
@@ -139,21 +140,22 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
                     new MediaScannerConnection.MediaScannerConnectionClient() {
                         public void onMediaScannerConnected() {
                         }
+
                         public void onScanCompleted(String path, Uri uri1) {
                             Log.d("path: ", path);
                         }
                     });
             holder.downloadID.animate().alpha(0f).setDuration(300);
-                holder.downloadID.setVisibility(View.GONE);
-                holder.shareId.animate().alpha(1f).setDuration(300);
-                holder.shareId.setVisibility(View.VISIBLE);
+            holder.downloadID.setVisibility(View.GONE);
+            holder.shareId.animate().alpha(1f).setDuration(300);
+            holder.shareId.setVisibility(View.VISIBLE);
         });
 
         holder.shareId.setOnClickListener(v -> {
             Toast.makeText(context, "Sharing...",
                     Toast.LENGTH_SHORT).show();
             Uri mainUri = ((StoryModel) filesList.get(position)).getUri();
-            if(files.getUri().toString().endsWith(".jpg")) {
+            if (files.getUri().toString().endsWith(".jpg")) {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, mainUri);
@@ -162,17 +164,17 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
                 Intent intent = Intent.createChooser(sharingIntent, "Share Image using");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
-                  context.getApplicationContext().startActivity(intent);
+                    context.getApplicationContext().startActivity(intent);
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(context, "No application found to open this file.",
                             Toast.LENGTH_LONG).show();
                 }
-            }else if(files.getUri().toString().endsWith(".mp4")){
+            } else if (files.getUri().toString().endsWith(".mp4")) {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 sharingIntent.setType("video/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, mainUri);
                 sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                Intent intent = Intent.createChooser(sharingIntent,"Share Video using");
+                Intent intent = Intent.createChooser(sharingIntent, "Share Video using");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
                     context.getApplicationContext().startActivity(intent);
@@ -188,12 +190,12 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
             context.stopService(stopService);
 
         });
-       holder.setIsRecyclable(false);
+        holder.setIsRecyclable(false);
     }
 
     public void checkFolder() {
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() +
-                Constants.SAVE_FOLDER_NAME ;
+                Constants.SAVE_FOLDER_NAME;
         File dir = new File(path);
 
         boolean isDirectoryCreated = dir.exists();
@@ -209,10 +211,12 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
     public int getItemCount() {
         return filesList.size();
     }
-    public static class  ViewHolder extends RecyclerView.ViewHolder {
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView savedImage;
         private final Button downloadID;
         private final Button shareId;
+
         public ViewHolder(View itemView) {
             super(itemView);
             savedImage = itemView.findViewById(R.id.mainImageView_overlay);
