@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="15dp"
+       android:layout_marginStart="25dp"
+       android:text="Basic Settings"
+       android:textSize="20sp"
+       android:id="@+id/header1"
+       android:fontFamily="@font/roboto_regular"
+       android:textColor="@color/disc_blue"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header1"
+            android:elevation="5dp"
+            android:focusable="true"
+            android:background="@drawable/setting_outline_cont"
+            android:layout_marginStart="15dp"
+            android:id="@+id/head1_cont"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subheader1"
+            android:text="Overlay Service"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/text_color_disc"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"/>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+               app:thumbTint="@color/disc_blue"
+                app:trackTint="#51BF90"
+                android:id="@+id/overlayid"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+               android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/subheader1">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginEnd="50dp"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/text_color_disc"
+                android:text="Turns on overlay service while whatsapp is running in foreground "
+                tools:ignore="SmallSp" />
+
+        </RelativeLayout>
+
+
+</RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/head1_cont"
+       android:id="@+id/btn_contain3"
+        android:elevation="5dp"
+        android:background="@drawable/setting_outline_cont"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subheader2"
+            android:text="Dark Mode"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/text_color_disc"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:checked="false"
+            android:padding="10dp"
+            app:thumbTint="@color/disc_blue"
+            app:trackTint="#51BF90"
+            android:id="@+id/themeid"
+            />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/subheader2">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginEnd="50dp"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/text_color_disc"
+                android:text="Turns on Dark Theme "
+                tools:ignore="SmallSp" />
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_contain3"
+        android:elevation="5dp"
+        android:id="@+id/contain4"
+        android:background="@drawable/setting_outline_cont"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subheader3"
+            android:text="Start service on Boot"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/text_color_disc"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:checked="true"
+            android:padding="10dp"
+            app:thumbTint="@color/disc_blue"
+            app:trackTint="#51BF90"
+            android:id="@+id/boot_id"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/subheader3">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginEnd="50dp"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/text_color_disc"
+                android:text="Starts the Application Service on device boot"
+                tools:ignore="SmallSp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contain4"
+        android:elevation="5dp"
+        android:id="@+id/shareApp"
+        android:background="@drawable/setting_outline_cont"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/subheader4"
+            android:text="Share this Application"
+            android:textSize="18sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/text_color_disc"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:checked="true"
+            android:padding="10dp"
+            android:src="@drawable/ic_outline_share_24"
+            app:tint="@color/text_color_disc" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/subheader4">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_marginEnd="50dp"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/text_color_disc"
+                android:text="Share this Application with your friends"
+                tools:ignore="SmallSp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Version 1.0"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/text_color_disc"
+        android:textSize="15sp"/>
+
+
+</RelativeLayout>

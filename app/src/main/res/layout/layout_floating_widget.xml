@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+
+    android:layout_height="wrap_content">
+
+    <!--Root container-->
+    <RelativeLayout
+        android:id="@+id/root_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UselessParent">
+
+        <!--View while view is collapsed-->
+        <RelativeLayout
+            android:id="@+id/collapse_view"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--Icon of floating widget -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="60dp"
+                android:background="#00FFFFFF"
+                android:layout_height="60dp"
+                android:layout_marginTop="8dp"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#445283"
+                android:alpha="0.7"
+                tools:ignore="ContentDescription"/>
+
+            <!--Close button-->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/close_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="41dp"
+                app:civ_border_width="1dp"
+                app:civ_border_color="#4DFFFFFF"
+                tools:ignore="ContentDescription"
+                app:tint="@color/black" />
+        </RelativeLayout>
+
+        <!--View while view is expanded-->
+
+        <RelativeLayout
+            android:id="@+id/expanded_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/recyclerview_overlay_bg"
+            android:orientation="horizontal"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/controls_container"
+                android:layout_alignParentTop="true"
+                android:elevation="10dp"
+                tools:ignore="NotSibling">
+                <ImageView
+                    android:id="@+id/close_button"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_above="@+id/controls_container"
+                    android:src="@drawable/ic_baseline_close_24"
+                    android:elevation="3dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                  />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                   android:layout_toLeftOf="@+id/close_button"
+                    android:layout_toRightOf="@+id/open_button"
+                  android:layout_centerVertical="true"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:elevation="2dp"
+                    android:background="@drawable/grip"/>
+
+                <ImageView
+                    android:id="@+id/open_button"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                   android:scaleType="fitCenter"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_baseline_zoom_out_map_24"
+                   />
+            </RelativeLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRecyclerView_overLay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".MainActivity" android:layout_below="@+id/controls_container"
+        tools:showIn="@layout/activity_main">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_overlay"
+            android:layout_width="match_parent"
+          android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_height="match_parent"
+            android:clipToPadding="true"
+            android:scrollbars="vertical" />
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:id="@+id/goto_top_btn"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                android:background="@drawable/goto_top"
+                >
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:id="@+id/top_img"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/ic_baseline_arrow_upward_24"
+                    app:tint="@color/disc_blue" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/top_img"
+                    android:text="Go to top"
+                    android:layout_marginStart="8dp"
+                    android:textSize="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:textColor="@color/disc_blue"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_centerVertical="true"
+                    />
+
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/no_data"
+                android:layout_centerInParent="true"
+                android:text="No Whatsapp Status Found"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

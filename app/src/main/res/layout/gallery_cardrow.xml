@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@color/action"
+        app:cardUseCompatPadding="true"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="2dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/action">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/btn_contain">
+
+            <ImageView
+                android:id="@+id/ThumbimgView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:background="@color/bg"
+                android:scaleType="centerCrop"
+                />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/playIcon_gallery"
+                android:alpha="0.8"
+                app:tint="#FFFFFF"
+                android:src="@drawable/play"
+                android:layout_centerHorizontal="true"
+                 />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/btn_contain"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/button_con_gallery"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:id="@+id/share_wrap"
+                    android:layout_height="wrap_content">
+
+
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/Share_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:foregroundGravity="center"
+                    android:elevation="3dp"
+                    android:foreground="@drawable/ic_outline_send_24"
+                    android:background="@drawable/button_shape"
+                    android:textAllCaps="false"
+                    android:textSize="18dp" />
+
+
+                 <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                     android:layout_centerHorizontal="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Share"
+                     android:layout_below="@+id/Share_btn"
+                        android:textColor="@color/gal_txt"
+                        android:textSize="14dp" />
+
+            </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@+id/share_wrap"
+                    android:id="@+id/repost_wrap"
+                    android:layout_height="wrap_content">
+
+
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/repostbtn"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:elevation="3dp"
+                        android:foregroundGravity="center"
+                        android:foreground="@drawable/ic_outline_autorenew_24"
+                        android:background="@drawable/button_shape"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textAllCaps="false"
+                        android:textSize="18dp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Repost"
+                        android:layout_below="@+id/repostbtn"
+                        android:textColor="@color/gal_txt"
+                        android:textSize="14dp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_toRightOf="@+id/repost_wrap"
+                    android:layout_height="wrap_content">
+
+
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/Delete_btn"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:elevation="3dp"
+                        android:foregroundGravity="center"
+                        android:foreground="@drawable/ic_baseline_delete_outline_24"
+                        android:background="@drawable/button_shape"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textAllCaps="false"
+                        android:textSize="18dp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Delete"
+                        android:layout_below="@+id/Delete_btn"
+                        android:textColor="@color/gal_txt"
+                        android:textSize="14dp" />
+
+                </RelativeLayout>
+
+
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

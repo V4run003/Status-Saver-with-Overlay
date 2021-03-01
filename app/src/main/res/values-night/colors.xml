@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="darkPurple">#6441a5</color>
+    <color name="disc_blue">#128C7E</color>
+
+    <color name="bg">#FF000000</color>
+    <color name="bck_to_top">#191919</color>
+    <color name="savebtn_bg">#B91C1C1C</color>
+    <color name="gal_txt">#EEEDEDED</color>
+    <color name="savebtn_bg_gal">#1C1C1C</color>
+    <color name="action">#F0191919</color>
+    <color name="black">#FF000000</color>
+    <color name="btn_saved">#F0B8B8B8</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_color_disc">#128C7E</color>
+    <color name="settings_cont_bg">#0DDCF8C6</color>
+</resources>

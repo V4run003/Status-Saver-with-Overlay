@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <style name="navStyle">
+        <![CDATA[ <style name="navStyle" parent="TextAppearance.AppCompat.Menu">         <item name="android:fontFamily">@font/roboto_regular</item>         <item name="android:textSize">14sp</item>     </style>]]></style>
+</resources>

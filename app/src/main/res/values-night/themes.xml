@@ -1,0 +1,24 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MyApplication" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/disc_blue</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="colorPrimaryVariant">@color/text_color_disc</item>
+        <item name="colorOnPrimary">@color/black</item>
+
+
+        <!-- Secondary brand color. -->
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">@color/black</item>
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="walkthrough" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor" tools:targetApi="l">#CBCFD2</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">#CBCFD2</item>
+    </style>
+
+</resources>

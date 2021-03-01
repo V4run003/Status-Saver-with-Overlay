@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Status Saver</string>
+    <string name="touch_finished_position">position</string>
+    <string name="deleted_soon">deleted soon</string>
+    <string name="chathead_content_title">Status Saver</string>
+    <string name="content_text">Save Status</string>
+    <string name="default_floatingview_channel_id">default_floatingview_channel</string>
+    <string name="chathead_click_message">clicked</string>
+    <string name="ad_appid">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="banner_adid">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_adid">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="native_adid">ca-app-pub-3940256099942544/2247696110</string>
+</resources>
