@@ -1,6 +1,7 @@
 package com.abc.StatusSaver.Services;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -57,7 +58,6 @@ public class FloatingService extends Service implements FloatingViewListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // 既にManagerが存在していたら何もしない
         if (mFloatingViewManager != null) {
             return START_STICKY;
         }
@@ -79,9 +79,19 @@ public class FloatingService extends Service implements FloatingViewListener {
             return false;
         });
         iconView.setOnClickListener(v -> {
-            Intent is2 = new Intent(FloatingService.this, FloatingViewService.class);
-            startService(is2);
-            iconView.setImageResource(R.mipmap.ic_launcher);
+            Boolean running = isMyServiceRunning(FloatingViewService.class);
+            if (running){
+                Intent intent2 = new Intent(mContext, FloatingViewService.class);
+                mContext.stopService(intent2);
+            } else {
+                Intent is2 = new Intent(FloatingService.this, FloatingViewService.class);
+                startService(is2);
+                iconView.setImageResource(R.mipmap.ic_launcher);
+            }
+
+
+
+
 
         });
 
@@ -155,6 +165,16 @@ public class FloatingService extends Service implements FloatingViewListener {
 
         }
 
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void destroy() {

@@ -185,15 +185,13 @@ public class FloatingViewService extends Service {
                     PixelFormat.TRANSLUCENT);
         }
 
-        //Add the view to the window.
 
-        //Specify the view position
-        params.gravity = Gravity.TOP | Gravity.LEFT;        //Initially view will be added to top-left corner
+        params.gravity = Gravity.TOP | Gravity.LEFT;
         params.x = 0;
         params.y = 100;
 
 
-        //Add the view to the window
+
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mWindowManager.addView(mFloatingView, params);
 
@@ -293,11 +291,7 @@ public class FloatingViewService extends Service {
         });
     }
 
-    /**
-     * Detect if the floating view is collapsed or expanded.
-     *
-     * @return true if the floating view is collapsed.
-     */
+
     private boolean isViewCollapsed() {
         return mFloatingView == null || mFloatingView.findViewById(R.id.collapse_view).getVisibility() == View.VISIBLE;
     }
@@ -305,8 +299,8 @@ public class FloatingViewService extends Service {
 
     @Override
     public void onDestroy() {
-        Intent broadcastIntent = new Intent("ac.in.ActivityRecognition.RestartSensor");
-        sendBroadcast(broadcastIntent);
+       // Intent broadcastIntent = new Intent("ac.in.ActivityRecognition.RestartSensor");
+       // sendBroadcast(broadcastIntent);
         if (mFloatingView != null) mWindowManager.removeView(mFloatingView);
         super.onDestroy();
     }
