@@ -26,6 +26,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.Objects;
 
+import static com.abc.StatusSaver.R.drawable.setting_outline_cont;
 import static com.abc.StatusSaver.R.drawable.settings_outline_focus;
 import static com.abc.StatusSaver.Utils.Constants.MyPREFERENCES;
 
@@ -53,17 +54,27 @@ public class SettingsFragment extends Fragment {
         SwitchMaterial switchMaterial = view.findViewById(R.id.overlayid);
         shareApp = view.findViewById(R.id.shareApp);
         MainActivity activity = (MainActivity) getActivity();
-        isTuto = activity.Isstarted();
-        if (isTuto) {
-            focusableOverlay.setBackground(getResources().getDrawable(settings_outline_focus));
-            Animation anim = new AlphaAnimation(0.3f, 1.0f);
-            anim.setDuration(500); //You can manage the blinking time with this parameter
-            anim.setStartOffset(50);
-            anim.setRepeatMode(Animation.REVERSE);
-            anim.setRepeatCount(Animation.INFINITE);
-            focusableOverlay.startAnimation(anim);
+        if (activity.Isstarted()!=null){
+            isTuto = activity.Isstarted();
+        } else
+            isTuto = null;
 
+        if (isTuto!=null){
+            if (isTuto) {
+                focusableOverlay.setBackground(getResources().getDrawable(settings_outline_focus));
+                Animation anim = new AlphaAnimation(0.3f, 1.0f);
+                anim.setDuration(500); //You can manage the blinking time with this parameter
+                anim.setStartOffset(50);
+                anim.setRepeatMode(Animation.REVERSE);
+                anim.setRepeatCount(Animation.INFINITE);
+                focusableOverlay.startAnimation(anim);
+
+            }
+        } else
+        {
+            focusableOverlay.setBackground(getResources().getDrawable(setting_outline_cont));
         }
+
 
 
         SharedPreferences sharedpreferencesch = SettingsFragment.this.getActivity().getSharedPreferences
@@ -83,7 +94,7 @@ public class SettingsFragment extends Fragment {
                 switchMaterial.setChecked(false);
                 break;
             case "null":
-                switchMaterial.setChecked(true);
+                switchMaterial.setChecked(false);
                 break;
         }
 

@@ -82,7 +82,6 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
             holder.shareId.animate().alpha(1f).setDuration(300);
             holder.shareId.setVisibility(View.VISIBLE);
         }
-
         holder.savedImage.setOnClickListener(v -> {
             if (files.getUri().toString().endsWith(".mp4")) {
                 Uri VideoURI = FileProvider.getUriForFile(context,
@@ -118,7 +117,6 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
                 }
             }
         });
-
         holder.downloadID.setOnClickListener(v -> {
             checkFolder();
             final String path = ((StoryModel) filesList.get(position)).getPath();
@@ -224,6 +222,4 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
             downloadID = itemView.findViewById(R.id.downloadID_overlay);
         }
     }
-
-
 }

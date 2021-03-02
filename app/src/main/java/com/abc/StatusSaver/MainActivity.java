@@ -267,8 +267,13 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
         viewPagerAdapter.addFragment(new SettingsFragment());
         viewPager.setAdapter(viewPagerAdapter);
         textView = findViewById(R.id.title);
-        if (started) {
-            viewPager.setCurrentItem(2);
+        if (started!=null) {
+            if (started){
+                viewPager.setCurrentItem(2);
+            }
+        } else {
+
+
         }
     }
 

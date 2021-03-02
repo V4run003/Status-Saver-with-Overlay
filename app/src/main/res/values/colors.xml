@@ -14,6 +14,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="text_color_disc">#128C7E</color>
     <color name="settings_cont_bg">#25DCF8C6</color>
-    <color name="actionbar">#BCFFFFFF</color>
     <color name="light_accent">#51BF90</color>
 </resources>
