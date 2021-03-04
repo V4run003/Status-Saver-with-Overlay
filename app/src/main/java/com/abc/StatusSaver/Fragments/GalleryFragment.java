@@ -52,8 +52,6 @@ public class GalleryFragment extends Fragment {
         initComponents();
         setUpRecyclerView();
         return view;
-
-
     }
 
     private void initComponents() {

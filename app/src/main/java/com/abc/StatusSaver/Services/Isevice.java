@@ -43,15 +43,17 @@ public class Isevice extends Service {
                     currentApp[0] = Objects.requireNonNull(mySortedMap.get(mySortedMap.lastKey())).getPackageName();
                 }
             }
+            if (currentApp[0].compareTo("com.whatsapp") != 0){
+                Intent intent2 = new Intent(Isevice.this, FloatingService.class);
+                stopService(intent2);
+            }
+
             if (currentApp[0].compareTo("com.whatsapp") == 0) {
                 SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                 String aa = sharedpreferences.getString("Overlay", "null");
                 if (aa.equals("checked")) {
-                    final Intent intent2 = new Intent(Isevice.this, FloatingService.class);
-                    ContextCompat.startForegroundService(Isevice.this, intent2);
-                } else if (aa.equals("null")) {
-                    final Intent intent2 = new Intent(Isevice.this, FloatingService.class);
-                    ContextCompat.startForegroundService(Isevice.this, intent2);
+                    Intent fintent = new Intent(Isevice.this, FloatingService.class);
+                    ContextCompat.startForegroundService(Isevice.this, fintent);
                 }
             }
 

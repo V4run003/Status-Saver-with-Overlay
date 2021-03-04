@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
         String aa = sharedpreferences.getString("Overlay", "null");
         switch (aa) {
             case "checked":
+            case "null":
                 StartIService();
                 break;
             case "unchecked":
@@ -204,9 +205,6 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
                 stopService(intent2);
                 Intent intent3 = new Intent(MainActivity.this, FloatingViewService.class);
                 stopService(intent3);
-                break;
-            case "null":
-                StartIService();
                 break;
         }
         SharedPreferences darkModePref = this.getSharedPreferences

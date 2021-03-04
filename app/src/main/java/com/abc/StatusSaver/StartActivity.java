@@ -32,24 +32,13 @@ public class StartActivity extends AppCompatActivity {
             editor.apply();
             Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(() -> startActivity(new Intent(StartActivity.this, WalkthroughActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)), 800);
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)), 500);
         } else {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.postDelayed(() -> startActivity(new Intent(StartActivity.this, MainActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)), 800);
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)), 500);
 
         }
-
-
-
-
-
-
-
-
-
-
-
 
     }
 
