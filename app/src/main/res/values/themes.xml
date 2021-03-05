@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.MyApplication" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#7289DA</item>
+        <item name="colorPrimary">@color/disc_blue</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="colorPrimaryVariant">#6441a5</item>
+        <item name="colorPrimaryVariant">@color/text_color_disc</item>
         <item name="colorOnPrimary">@color/white</item>
 
 

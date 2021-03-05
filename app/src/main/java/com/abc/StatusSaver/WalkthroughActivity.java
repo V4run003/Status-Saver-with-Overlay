@@ -133,6 +133,7 @@ public class WalkthroughActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("BatteryLife")
     private void batteryperm() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
