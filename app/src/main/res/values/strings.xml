@@ -4,6 +4,8 @@
     <string name="chathead_content_title">Status Saver</string>
     <string name="content_text">Save Status</string>
     <string name="default_floatingview_channel_id">default_floatingview_channel</string>
-    <string name="ad_appid">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="banner_adid">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="ad_appid">ca-app-pub-7141974458676162~1318708496</string>
+    <string name="banner_adid">ca-app-pub-7141974458676162/2183948044</string>
+    <string name="interstitial_ad_id">ca-app-pub-7141974458676162/9935565116</string>
+    <string name="native_ad_id">ca-app-pub-7141974458676162/9743993426</string>
 </resources>

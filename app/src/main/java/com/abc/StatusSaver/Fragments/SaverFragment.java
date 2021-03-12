@@ -112,7 +112,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
         if (net) {
             AdmobNativeAdAdapter admobNativeAdAdapter = AdmobNativeAdAdapter.Builder
                     .with(
-                            "ca-app-pub-3940256099942544/2247696110",//Create a native ad id from admob console
+                            getString(R.string.native_ad_id),//Create a native ad id from admob console
                             recyclerViewAdapter,//The adapter you would normally set to your recyClerView
                             "medium"//Set it with "small","medium" or "custom"
                     )
@@ -179,7 +179,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
             pd.setMessage("Loading...");
             pd.show();
 
-            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, "ca-app-pub-3940256099942544/1033173712", adRequest2, new InterstitialAdLoadCallback() {
+            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, getString(R.string.interstitial_ad_id), adRequest2, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                     // The mInterstitialAd reference will be null until
@@ -204,7 +204,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
             ProgressDialog pd = new ProgressDialog(mContext);
             pd.setMessage("Loading...");
             pd.show();
-            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, "ca-app-pub-3940256099942544/1033173712", adRequest2, new InterstitialAdLoadCallback() {
+            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, getString(R.string.interstitial_ad_id), adRequest2, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                     // The mInterstitialAd reference will be null until
@@ -229,7 +229,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
             ProgressDialog pd = new ProgressDialog(mContext);
             pd.setMessage("Loading...");
             pd.show();
-            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, "ca-app-pub-3940256099942544/1033173712", adRequest2, new InterstitialAdLoadCallback() {
+            com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, getString(R.string.interstitial_ad_id), adRequest2, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                     // The mInterstitialAd reference will be null until

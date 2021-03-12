@@ -27,7 +27,6 @@ public class Isevice extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         onTaskRemoved(intent);
         UsageStatsManager usm = (UsageStatsManager) this.getSystemService(Context.USAGE_STATS_SERVICE);
         long time = System.currentTimeMillis();

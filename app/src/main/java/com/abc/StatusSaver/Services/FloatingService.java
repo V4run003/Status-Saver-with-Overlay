@@ -68,7 +68,7 @@ public class FloatingService extends Service implements FloatingViewListener {
         final LayoutInflater inflater = LayoutInflater.from(this);
         iconView = (CircleImageView) inflater.inflate(R.layout.widget_chathead, null, false);
         mFloatingViewManager = new FloatingViewManager(this, this);
-
+        mFloatingViewManager.setFixedTrashIconImage(R.drawable.ic_component_1___1);
         mFloatingViewManager.setSafeInsetRect((Rect) intent.getParcelableExtra(EXTRA_CUTOUT_SAFE_AREA));
         final FloatingViewManager.Options options = new FloatingViewManager.Options();
         options.overMargin = (int) (16 * metrics.density);
