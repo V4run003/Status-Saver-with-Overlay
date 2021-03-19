@@ -121,7 +121,6 @@ public class FloatingViewService extends Service {
     }
 
     private ArrayList<Object> getData() {
-
         ArrayList<Object> filesList = new ArrayList<>();
         StoryModel f;
         String targetPath = Environment.getExternalStorageDirectory().getAbsolutePath()

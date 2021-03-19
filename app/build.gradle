@@ -43,8 +43,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.willowtreeapps.spruce:spruce-android:1.1.0'
     implementation 'com.github.recruit-lifestyle:FloatingView:2.4.4'
-    implementation 'com.google.android.gms:play-services-ads:19.7.0'
-    implementation project(':nativetemplates')
+    implementation 'com.google.android.gms:play-services-ads:19.8.0'
     implementation 'com.github.daoibrahim:AdmobAdvancedNativeRecyclerview:1.0.0'
 
 

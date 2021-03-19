@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.concurrent.Executors;
 
 public class SaverFragment extends Fragment implements AdlistenerInterface {
 
@@ -61,11 +63,12 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.saver_fragment, container, false);
-        new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("99D32CE93ABCCE3BAEC035DEF9D69FB7"));
-        adRequest2 = new AdRequest.Builder()
-                .addTestDevice("99D32CE93ABCCE3BAEC035DEF9D69FB7")
-                .build();
-
+        new Thread( new Runnable() { @Override public void run() {
+            new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("99D32CE93ABCCE3BAEC035DEF9D69FB7"));
+            adRequest2 = new AdRequest.Builder()
+                    .addTestDevice("99D32CE93ABCCE3BAEC035DEF9D69FB7")
+                    .build();
+        } } ).start();
 
         nodata = view.findViewById(R.id.no_data);
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -104,71 +107,78 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
     }
 
     private void setUpRecyclerView() {
-
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
         StoryAdapter recyclerViewAdapter = new StoryAdapter(mContext, getData(), this);
         recyclerView.setAdapter(recyclerViewAdapter);
-        Boolean net = isNetworkAvailable();
-        if (net) {
-            AdmobNativeAdAdapter admobNativeAdAdapter = AdmobNativeAdAdapter.Builder
-                    .with(
-                            getString(R.string.native_ad_id),//Create a native ad id from admob console
-                            recyclerViewAdapter,//The adapter you would normally set to your recyClerView
-                            "medium"//Set it with "small","medium" or "custom"
-                    )
-                    .adItemIterval(5)//native ad repeating interval in the recyclerview
-                    .build();
-            recyclerView.setAdapter(admobNativeAdAdapter);
+        new Thread( new Runnable() { @Override public void run() {
+            Boolean net = isNetworkAvailable();
+            if (net) {
 
-        } else {
-            recyclerView.setAdapter(recyclerViewAdapter);
-        }
+                AdmobNativeAdAdapter admobNativeAdAdapter = AdmobNativeAdAdapter.Builder
+                        .with(
+                                getString(R.string.native_ad_id),//Create a native ad id from admob console
+                                recyclerViewAdapter,//The adapter you would normally set to your recyClerView
+                                "medium"//Set it with "small","medium" or "custom"
+                        )
+                        .adItemIterval(5)//native ad repeating interval in the recyclerview
+                        .build();
+                recyclerView.setAdapter(admobNativeAdAdapter);
+
+            } else {
+                recyclerView.setAdapter(recyclerViewAdapter);
+            }
 
 
-        //set your RecyclerView adapter with the admobNativeAdAdapter
+            //set your RecyclerView adapter with the admobNativeAdAdapter
 
 
-        recyclerViewAdapter.notifyDataSetChanged();
-        recyclerView.setHasFixedSize(true);
+            recyclerViewAdapter.notifyDataSetChanged();
+            recyclerView.setHasFixedSize(true);
+        } } ).start();
+
+
     }
 
     private ArrayList<Object> getData() {
         ArrayList<Object> filesList = new ArrayList<>();
-        StoryModel f;
-        String targetPath = Environment.getExternalStorageDirectory().getAbsolutePath()
-                + Constants.FOLDER_NAME + "Media/.Statuses";
-        File targetDirector = new File(targetPath);
-        File[] files = targetDirector.listFiles();
-        try {
-            Arrays.sort(files, new Comparator() {
-                public int compare(Object o1, Object o2) {
-                    if (((File) o1).lastModified() > ((File) o2).lastModified()) {
-                        return -1;
-                    } else if (((File) o1).lastModified() < ((File) o2).lastModified()) {
-                        return +1;
-                    } else {
-                        return 0;
+
+            StoryModel f;
+            String targetPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+                    + Constants.FOLDER_NAME + "Media/.Statuses";
+            File targetDirector = new File(targetPath);
+            File[] files = targetDirector.listFiles();
+            try {
+                Arrays.sort(files, new Comparator() {
+                    public int compare(Object o1, Object o2) {
+                        if (((File) o1).lastModified() > ((File) o2).lastModified()) {
+                            return -1;
+                        } else if (((File) o1).lastModified() < ((File) o2).lastModified()) {
+                            return +1;
+                        } else {
+                            return 0;
+                        }
                     }
+                });
+                for (int i = 0; i < files.length; i++) {
+                    File file = files[i];
+                    f = new StoryModel();
+                    f.setName("Status: " + (i + 1));
+                    f.setUri(Uri.fromFile(file));
+                    f.setPath(files[i].getAbsolutePath());
+                    f.setFilename(file.getName());
+                    filesList.add(f);
                 }
-            });
-            for (int i = 0; i < files.length; i++) {
-                File file = files[i];
-                f = new StoryModel();
-                f.setName("Status: " + (i + 1));
-                f.setUri(Uri.fromFile(file));
-                f.setPath(files[i].getAbsolutePath());
-                f.setFilename(file.getName());
-                filesList.add(f);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        int size = filesList.size();
-        if (size < 1) {
-            recyclerView.setVisibility(View.GONE);
-            nodata.setVisibility(View.VISIBLE);
-        }
+            int size = filesList.size();
+            if (size < 1) {
+                recyclerView.setVisibility(View.GONE);
+                nodata.setVisibility(View.VISIBLE);
+            }
         return filesList;
+
+
     }
 
     @Override
@@ -229,6 +239,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
             ProgressDialog pd = new ProgressDialog(mContext);
             pd.setMessage("Loading...");
             pd.show();
+
             com.google.android.gms.ads.interstitial.InterstitialAd.load(mContext, getString(R.string.interstitial_ad_id), adRequest2, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {

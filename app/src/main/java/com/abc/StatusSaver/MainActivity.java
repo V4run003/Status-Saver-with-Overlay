@@ -49,6 +49,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.abc.StatusSaver.Utils.Constants.MyPREFERENCES;
@@ -137,10 +138,6 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
         adView.setAdSize(AdSize.BANNER);
         adView.setAdUnitId(String.valueOf(R.string.banner_adid));
         adView = findViewById(R.id.adView);
-        new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("99D32CE93ABCCE3BAEC035DEF9D69FB7"));
-        adRequest2 = new AdRequest.Builder()
-                .addTestDevice("99D32CE93ABCCE3BAEC035DEF9D69FB7")
-                .build();
         AdRequest adRequest = new AdRequest.Builder()
                 .build();
         adView.loadAd(adRequest);

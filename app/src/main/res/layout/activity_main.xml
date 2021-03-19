@@ -66,7 +66,7 @@
         android:layout_above="@+id/bottom_nav"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"></com.google.android.gms.ads.AdView>
+        ads:adUnitId="@string/banner_adid" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

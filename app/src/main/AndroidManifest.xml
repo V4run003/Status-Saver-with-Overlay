@@ -43,6 +43,7 @@
 
         <service
             android:name=".Services.FloatingService"
+            android:process=":process1"
             android:exported="false" />
 
         <activity android:name=".StartActivity">
@@ -75,11 +76,13 @@
             android:name=".Services.Isevice"
             android:enabled="true"
             android:exported="false"
+            android:process=":process2"
             android:stopWithTask="false" />
         <service
             android:name=".Services.FloatingViewService"
             android:enabled="true"
             android:exported="false"
+            android:process=":process3"
             android:stopWithTask="false" />
 
         <provider

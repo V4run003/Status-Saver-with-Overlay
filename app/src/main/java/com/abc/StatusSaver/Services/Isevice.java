@@ -22,6 +22,7 @@ import static com.abc.StatusSaver.Utils.Constants.MyPREFERENCES;
 public class Isevice extends Service {
     final String[] currentApp = {"NULL"};
 
+
     public Isevice() {
     }
 
@@ -31,7 +32,7 @@ public class Isevice extends Service {
         UsageStatsManager usm = (UsageStatsManager) this.getSystemService(Context.USAGE_STATS_SERVICE);
         long time = System.currentTimeMillis();
         assert usm != null;
-        AsyncTask.execute(() -> {
+
             List<UsageStats> appList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - 10000 * 10000, time);
             if (appList != null && appList.size() > 1) {
                 SortedMap<Long, UsageStats> mySortedMap = new TreeMap<>();
@@ -57,15 +58,11 @@ public class Isevice extends Service {
             }
 
 
-        });
-
-
         return START_STICKY;
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
