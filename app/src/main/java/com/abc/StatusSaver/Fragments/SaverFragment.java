@@ -1,5 +1,6 @@
 package com.abc.StatusSaver.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -110,7 +111,8 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
         StoryAdapter recyclerViewAdapter = new StoryAdapter(mContext, getData(), this);
         recyclerView.setAdapter(recyclerViewAdapter);
-        new Thread( new Runnable() { @Override public void run() {
+        new Thread( new Runnable() { @SuppressLint("NotifyDataSetChanged")
+        @Override public void run() {
             Boolean net = isNetworkAvailable();
             if (net) {
 
@@ -132,7 +134,7 @@ public class SaverFragment extends Fragment implements AdlistenerInterface {
             //set your RecyclerView adapter with the admobNativeAdAdapter
 
 
-            recyclerViewAdapter.notifyDataSetChanged();
+
             recyclerView.setHasFixedSize(true);
         } } ).start();
 
