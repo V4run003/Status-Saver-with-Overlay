@@ -109,7 +109,7 @@ public class WalkthroughActivity extends AppCompatActivity {
 
         next_btn.setOnClickListener(v -> {
             if (currentPage == 1) {
-                overlayPerm();
+               // overlayPerm();
             } else if (currentPage == 2) {
 
                 statsPerm();

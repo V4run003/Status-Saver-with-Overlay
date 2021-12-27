@@ -61,6 +61,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<com.abc.StatusSaver.Ada
         } else {
             holder.playIcon.setVisibility(View.INVISIBLE);
         }
+
+
         Glide.with(context)
                 .load(files.getUri())
                 .dontAnimate()

@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,7 @@ public class SettingsFragment extends Fragment {
     RelativeLayout focusableOverlay;
     Boolean isTuto;
     private Context mContext;
+    private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     private SharedPreferences darkModePref;
 
     @Override
@@ -240,7 +243,11 @@ public class SettingsFragment extends Fragment {
                 (MyPREFERENCES, Context.MODE_PRIVATE);
         String aa = sharedpreferences1.getString("Overlay", "null");
         if (aa.equals("unchecked")) {
-            startiservice();
+            if (Settings.canDrawOverlays(
+                    mContext)) {
+                startiservice();
+            }
+
             SharedPreferences sharedpreferences;
             SharedPreferences.Editor editor;
             sharedpreferences = SettingsFragment.this.getActivity().getSharedPreferences
@@ -248,6 +255,7 @@ public class SettingsFragment extends Fragment {
             editor = sharedpreferences.edit();
             editor.putString("Overlay", "checked");
             editor.apply();
+            overlayPerm();
         } else if (aa.equals("checked")) {
             SharedPreferences sharedpreferences2;
             sharedpreferences2 = SettingsFragment.this.getActivity().getSharedPreferences
@@ -256,12 +264,16 @@ public class SettingsFragment extends Fragment {
             editor2 = sharedpreferences2.edit();
             editor2.putString("Overlay", "unchecked");
             editor2.apply();
-            Intent intent = new Intent(mContext, Isevice.class);
-            mContext.stopService(intent);
-            Intent intent2 = new Intent(mContext, FloatingViewService.class);
-            mContext.stopService(intent2);
-            Intent intent3 = new Intent(mContext, FloatingService.class);
-            mContext.stopService(intent3);
+            if (Settings.canDrawOverlays(
+                    mContext)) {
+                Intent intent = new Intent(mContext, Isevice.class);
+                mContext.stopService(intent);
+                Intent intent2 = new Intent(mContext, FloatingViewService.class);
+                mContext.stopService(intent2);
+                Intent intent3 = new Intent(mContext, FloatingService.class);
+                mContext.stopService(intent3);
+            }
+
 
         } else if (aa.equals("null")) {
             SharedPreferences sharedpreferences2;
@@ -271,6 +283,17 @@ public class SettingsFragment extends Fragment {
             editor2 = sharedpreferences2.edit();
             editor2.putString("Overlay", "checked");
             editor2.apply();
+            overlayPerm();
+        }
+    }
+
+
+    private void overlayPerm() {
+        if (!Settings.canDrawOverlays(
+                mContext)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + mContext.getPackageName()));
+            startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
         }
     }
 

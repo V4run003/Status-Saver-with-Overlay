@@ -52,6 +52,8 @@ public class Isevice extends Service {
                 SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                 String aa = sharedpreferences.getString("Overlay", "null");
                 if (aa.equals("checked")) {
+
+
                     Intent fintent = new Intent(Isevice.this, FloatingService.class);
                     ContextCompat.startForegroundService(Isevice.this, fintent);
                 }

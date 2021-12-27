@@ -148,19 +148,7 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
         if (checkVal == PackageManager.PERMISSION_DENIED) {
             int currentAPIVersion = Build.VERSION.SDK_INT;
             if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission
-                        .WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                        ActivityCompat.requestPermissions(MainActivity.this,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
-                    } else {
-                        ActivityCompat.requestPermissions(MainActivity.this,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
-                    }
-                }
+               requestForPermission();
             }
 
         }
@@ -168,13 +156,7 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
             startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(
-                this)) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        {
             Intent intent = new Intent();
             String packageName = getPackageName();
             PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
@@ -193,15 +175,22 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
         switch (aa) {
             case "checked":
             case "null":
-                StartIService();
+                if (Settings.canDrawOverlays(
+                        this)) {
+                    StartIService();
+                }
+
                 break;
             case "unchecked":
-                Intent intent = new Intent(MainActivity.this, Isevice.class);
-                stopService(intent);
-                Intent intent2 = new Intent(MainActivity.this, FloatingService.class);
-                stopService(intent2);
-                Intent intent3 = new Intent(MainActivity.this, FloatingViewService.class);
-                stopService(intent3);
+                if (Settings.canDrawOverlays(
+                        this)) {
+                    Intent intent = new Intent(MainActivity.this, Isevice.class);
+                    stopService(intent);
+                    Intent intent2 = new Intent(MainActivity.this, FloatingService.class);
+                    stopService(intent2);
+                    Intent intent3 = new Intent(MainActivity.this, FloatingViewService.class);
+                    stopService(intent3);
+                }
                 break;
         }
         SharedPreferences darkModePref = this.getSharedPreferences
@@ -219,6 +208,31 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
             if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
+        }
+
+    }
+
+
+    private void requestForPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{
+                            Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
+                    101
+            );
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
+                    101
+            );
         }
 
     }
@@ -242,14 +256,24 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull
-            int[] grantResults) {
-        if (requestCode == MY_PERMISSIONS_REQUEST_WRITE_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            } else {
-                Toast.makeText(this, "Please allow Storage permission to continue",
-                        Toast.LENGTH_LONG).show();
-            }
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 101:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                   // getFile();
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        //request for the permission
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -270,6 +294,29 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
 
 
         }
+    }
+
+    @Override
+    protected void onRestart() {
+
+        if (Settings.canDrawOverlays(
+                this)) {
+            StartIService();
+        }
+
+
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+
+        if (Settings.canDrawOverlays(
+                this)) {
+            StartIService();
+        }
+
+        super.onResume();
     }
 
     private void initInterface() {
@@ -302,12 +349,16 @@ public class MainActivity extends AppCompatActivity implements AdlistenerInterfa
                 Context.MODE_PRIVATE);
         String aa = sharedpreferences.getString("Overlay", "null");
         if (aa.equals("unchecked")) {
-            Intent intent = new Intent(MainActivity.this, Isevice.class);
-            stopService(intent);
-            Intent intent2 = new Intent(MainActivity.this, FloatingService.class);
-            stopService(intent2);
-            Intent intent3 = new Intent(MainActivity.this, FloatingViewService.class);
-            stopService(intent3);
+            if (Settings.canDrawOverlays(
+                    this)) {
+                Intent intent = new Intent(MainActivity.this, Isevice.class);
+                stopService(intent);
+                Intent intent2 = new Intent(MainActivity.this, FloatingService.class);
+                stopService(intent2);
+                Intent intent3 = new Intent(MainActivity.this, FloatingViewService.class);
+                stopService(intent3);
+            }
+
         }
 
 

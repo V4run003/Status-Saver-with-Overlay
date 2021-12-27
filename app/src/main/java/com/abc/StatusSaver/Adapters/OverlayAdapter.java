@@ -65,7 +65,7 @@ public class OverlayAdapter extends RecyclerView.Adapter<OverlayAdapter.ViewHold
             Glide.with(context)
                     .load(files.getUri())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.5f)
+                    .thumbnail(0.2f)
                     .centerCrop()
                     .into(holder.savedImage);
         }

@@ -30,7 +30,6 @@ import com.abc.StatusSaver.Adapters.OverlayAdapter;
 import com.abc.StatusSaver.MainActivity;
 import com.abc.StatusSaver.Model.StoryModel;
 import com.abc.StatusSaver.R;
-import com.abc.StatusSaver.Utils.Constants;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -121,26 +120,25 @@ public class FloatingViewService extends Service {
     }
 
     private ArrayList<Object> getData() {
+
         ArrayList<Object> filesList = new ArrayList<>();
         StoryModel f;
-        String targetPath = Environment.getExternalStorageDirectory().getAbsolutePath()
-                + Constants.FOLDER_NAME + "Media/.Statuses";
+        String targetPath;
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+
+        if (currentAPIVersion >= Build.VERSION_CODES.R) {
+            targetPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/media/com.whatsapp/WhatsApp/Media/.Statuses";
+        } else {
+            targetPath = Environment.getExternalStorageDirectory().getAbsolutePath()
+                    + "/WhatsApp/Media/.Statuses";
+        }
+
         File targetDirector = new File(targetPath);
         File[] files = targetDirector.listFiles();
         //            noImageText.setVisibility(View.INVISIBLE);
         try {
-            Arrays.sort(files, new Comparator() {
-                public int compare(Object o1, Object o2) {
-
-                    if (((File) o1).lastModified() > ((File) o2).lastModified()) {
-                        return -1;
-                    } else if (((File) o1).lastModified() < ((File) o2).lastModified()) {
-                        return +1;
-                    } else {
-                        return 0;
-                    }
-                }
-            });
+            assert files != null;
+            Arrays.sort(files, (Comparator<File>) (o1, o2) -> Long.compare(((File) o2).lastModified(), ((File) o1).lastModified()));
 
             for (int i = 0; i < files.length; i++) {
                 File file = files[i];
